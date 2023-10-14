@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "src"
+version = "0.1.0"
+description = "Autonomous Agent for Finance"
+authors = ["Jan Komisarczyk <jan.komisarczyk@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.scripts]
+financebro = 'src.cli:main'
+
+[tool.poetry.dependencies]
+python = "^3.11"
+asyncio = "^3.4.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
