@@ -678,6 +678,17 @@ files = [
 cli = ["click (>=5.0)"]
 
 [[package]]
+name = "python-statemachine"
+version = "2.1.2"
+description = "Python Finite State Machines made easy."
+optional = false
+python-versions = ">=3.7,<3.13"
+files = [
+    {file = "python_statemachine-2.1.2-py3-none-any.whl", hash = "sha256:d7e369d5da5b9007cc7cf5eb7a1b169081e2f4b7d30b6415fc122858fb7696ec"},
+    {file = "python_statemachine-2.1.2.tar.gz", hash = "sha256:0b0dd8b28738b53f14391b06d5072cd5e72259da5ae23574d3d4f5e6dd366663"},
+]
+
+[[package]]
 name = "requests"
 version = "2.31.0"
 description = "Python HTTP for Humans."
@@ -731,13 +742,13 @@ files = [
 
 [[package]]
 name = "urllib3"
-version = "2.0.6"
+version = "2.0.7"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "urllib3-2.0.6-py3-none-any.whl", hash = "sha256:7a7c7003b000adf9e7ca2a377c9688bbc54ed41b985789ed576570342a375cd2"},
-    {file = "urllib3-2.0.6.tar.gz", hash = "sha256:b19e1a85d206b56d7df1d5e683df4a7725252a964e3993648dd0fb5a1c157564"},
+    {file = "urllib3-2.0.7-py3-none-any.whl", hash = "sha256:fdb6d215c776278489906c2f8916e6e7d4f5a9b602ccbcfdf7f016fc8da0596e"},
+    {file = "urllib3-2.0.7.tar.gz", hash = "sha256:c97dfde1f7bd43a71c8d2a58e369e9b2bf692d1334ea9f9cae55add7d0dd0f84"},
 ]
 
 [package.extras]
@@ -835,5 +846,5 @@ multidict = ">=4.0"
 
 [metadata]
 lock-version = "2.0"
-python-versions = "^3.11"
-content-hash = "80a860d1699dc3974c3a5d90bd740799650b97b0bf6e829caeb536145045c437"
+python-versions = ">=3.11,<3.13"
+content-hash = "6ede6aa1bdb1fe7806c8d4f1f102ad237616e138e4ea6581df1791aa525de01e"

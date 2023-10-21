@@ -1,5 +1,8 @@
 src/__pycache__/
 src/config/__pycache__/
 src/llmopenai/__pycache__/
+src/decomposer/__pycache__/
+src/financebro/__pycache__/
+src/interns/__pycache__/
 logs/
 .env

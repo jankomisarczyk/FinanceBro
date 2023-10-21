@@ -1,11 +1,15 @@
+from __future__ import annotations
+
 import json
 import logging
 import os
 from json import JSONDecodeError
-from typing import Any, Type
+from typing import Any, Type, TYPE_CHECKING
 from src.llmopenai import call_llm
-from src.interns import Specialization
 from src.llmopenai import Message
+
+if TYPE_CHECKING:
+    from src.interns.specialization import Specialization
 
 logger = logging.getLogger(__name__)
 

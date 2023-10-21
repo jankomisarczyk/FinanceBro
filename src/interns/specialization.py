@@ -124,3 +124,12 @@ class Specialization:
                 )
 
         return "\n".join(step_table)
+    
+    def plan():
+        pass
+
+    def decide():
+        pass
+
+    def execute():
+        pass

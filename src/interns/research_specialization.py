@@ -1,4 +1,4 @@
-from src.interns import Specialization
+from src.interns.specialization import Specialization
 
 class Research(Specialization):
     NAME = "Research Agent"

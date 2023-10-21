@@ -10,11 +10,12 @@ readme = "README.md"
 financebro = 'src.cli:main'
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.11,<3.13"
 python-dotenv = "^1.0.0"
 pydantic-settings = "^2.0.3"
 openai = "^0.28.1"
 coloredlogs = "^15.0.1"
+python-statemachine = "^2.1.2"
 
 
 [build-system]

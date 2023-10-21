@@ -1,7 +1,5 @@
 import logging
 import os
-from typing import ClassVar
-
 import coloredlogs
 import openai
 from pydantic_settings import BaseSettings
@@ -24,9 +22,7 @@ class Config(BaseSettings):
     process_timeout: int = 30
     workspace_path: str = "workspace"
 
-    _global_config: ClassVar["Config"] = None
-
-    def __init__(self, **kwargs) -> "Config":
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.setup_logging()
         openai.api_key = self.openai_api_key
@@ -55,16 +51,3 @@ class Config(BaseSettings):
             fmt=LOG_FORMAT,
             datefmt="%H:%M:%S",
         )
-
-    @classmethod
-    def set_global_config(cls, config_obj: "Config" = None) -> "Config":
-        """
-        Optionally set a global config object that can be used anywhere (You can still attach a separate instance to
-        each Body)
-        """
-        cls._global_config = config_obj or cls()
-        return cls._global_config
-
-    @classmethod
-    def global_config(cls) -> "Config":
-        return cls._global_config or cls.set_global_config()

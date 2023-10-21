@@ -1,10 +1,14 @@
 import logging
 import os.path
-from typing import Union, Type
+from typing import Union, Type, List, Dict
 
+from src.interns.intern import Intern
+from src.interns.specialization import Specialization
 from src.config import Config
-from src.decomposer import Decomposer
-from src.interns import Specialization, Intern
+from src.decomposer.decomposer import Decomposer
+    
+    
+    
 
 logger = logging.getLogger(__name__)
 
@@ -13,30 +17,61 @@ class FinanceBro:
     task: str
     # saved Documents from previous steps done by interns
     # TODO implement Documents
-    observations: list[str("Documents")]
-    # Variables set / exported by interns
-    global_variables: dict[str, str]
+    observations: List[str("Documents")]
+    # Variables set / exported by interns key:value
+    global_variables: Dict[str, str]
+    # Files created by interns and their description name:summary
+    global_files: Dict[str, str]
 
-    interns = list[Intern]
-    specialisation_registry: dict[str, Type[Specialization]]
+    interns: List[Intern]
+    specialisation_registry: Dict[str, Type[Specialization]]
     decomposer: Decomposer
     config: Config
 
     def __init__(self, task: str = "", config: Config = None):
         self.task = task
-        self.config = config or Config.global_config()
+        # do I need this ???
+        self.config = config or Config()
         self.interns = []
         self.observations = []
         self.global_variables = {}
+        self.global_files = {}
         self.specialisation_registry = {spec.NAME:spec for spec in Specialization.__subclasses__()}
         self.decomposer = Decomposer(
             task=task, 
             specialisation_registry=self.specialisation_registry, 
             model=self.config.decomposer_model)
 
-
         if not os.path.exists(self.config.workspace_path):
             os.makedirs(self.config.workspace_path, exist_ok=True)
+
+    @property
+    def global_variables(self) -> Dict[str, str]:
+        return self.global_variables
+    
+    @global_variables.setter
+    def global_variables(self, value) -> None:
+        if isinstance(value, dict):
+            for key in value:
+                if key in self.global_variables:
+                    print(f"Overwriting global variable {key}:{self.global_variables[key]} with new value {value[key]}")
+                self.global_variables[key] = value[key]
+        else:
+            raise ValueError("To add a global variable it must be in dictionary")
+        
+    @property
+    def global_files(self) -> Dict[str, str]:
+        return self.global_files
+    
+    @global_files.setter
+    def global_files(self, value) -> None:
+        if isinstance(value, dict):
+            for key in value:
+                if key in self.global_files:
+                    print(f"Overwriting global file description {key}:{self.global_files[key]} with new value {value[key]}")
+                self.global_files[key] = value[key]
+        else:
+            raise ValueError("To add a global file it must be in dictionary")
 
     @property
     def current_intern(self) -> Union[Intern, None]:
@@ -56,10 +91,6 @@ class FinanceBro:
     async def setup(self):
         await self.decompose_task()
 
-        await self.current_intern.create_new_step()
-
-        await self.save()
-
     async def cycle(self) -> str("Step"):
         # TODO implement Step that goes through intern
         """Step through one decide-execute-plan loop"""
@@ -67,6 +98,7 @@ class FinanceBro:
             return
 
         intern = self.current_intern
+        # each intern plans, rapairs, decide and execute a step
         step = await intern.cycle()
 
         # If this subtask is complete, prime the next subtask
@@ -104,9 +136,12 @@ class FinanceBro:
             # WHAT other arguments need intern ?? TODO
             specialization = self.specialisation_registry[step["agent"]]()
             intern = Intern(
+                financebro=self,
                 specialization=specialization,
                 instructions=step["instructions"],
                 inputs=step["inputs"],
-                outputs=step["outputs"]
+                outputs=step["outputs"],
+                global_variables=self.global_variables,
+                global_files=self.global_files
             )
             self.interns.append(intern)
