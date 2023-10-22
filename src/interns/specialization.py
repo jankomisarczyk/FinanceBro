@@ -1,135 +1,69 @@
+import logging
 import json
+from src.llmopenai import call_llm, Message
+from src.interns.prompt_templates import PLANNING_PROMPT_TEMPLATE, DECIDING_PROMPT_TEMPLATE
+from src.interns.step import Decision
+
+logger = logging.getLogger(__name__)
 
 class Specialization:
     NAME = ""
     TOOLS = []
     DESCRIPTION = ""
+    llm_planner: str
+    planning_prompt_template: str = PLANNING_PROMPT_TEMPLATE
+    llm_decider: str
+    deciding_prompt_template: str = DECIDING_PROMPT_TEMPLATE
 
-    def __init__(self):
+    def __init__(self, llm_planner: str, llm_decider: str):
         #what I need to pass into specialization from INtern
-        pass
-
-    @property
-    def planning_prompt_template(self) -> str:
-        pass
-
-    @property
-    def variables(self) -> dict[str, list[str]]:
-        return self.task_execution.variables
-
-    async def prompt_kwargs(self) -> dict[str, str]:
-        task = self.task_execution.instructions
-        variables = self.compile_variables()
-
-        files = []
-        for document in await self.task_execution.body.file_manager.all_documents():
-            files.append(document.name)
-
-        functions = "list of function to be implemented"
-        history = await self.task_execution.compile_history()
-
-        if files:
-            file_list = ", ".join(files)
-            file_section = f"\n# Files\n## The AI Assistant has access to the following files: {file_list}"
-        else:
-            file_section = ""
-
-        if history:
-            history_section = (
-                "# History:\n## The AI Assistant has a history of functions that the AI Assistant has already executed for this "
-                f"task. Here is the history, in order, starting with the first function executed:\n{history}"
-            )
-        else:
-            history_section = ""
-
-        return {
-            "task": task,
-            "functions": functions,
-            "file_list": file_section,
-            "variables": variables,
-            "history": history_section,
-        }
-
-    async def planning_prompt(self) -> tuple[str, dict[str, str]]:
-        prompt_variables = await self.prompt_kwargs()
-        return (
-            self.planning_prompt_template.format(**prompt_variables),
-            prompt_variables,
-        )
-
-    def compile_variables(self) -> str:
-        variable_table = []
-
-        for value, names in self.variables.items():
-            if value:
-                name_equals = " = ".join(names)
-                variable_row = f'{name_equals} = """{value}"""'
-                variable_table.append(variable_row)
-
-        for name, value in self.task_execution.body.global_variables.items():
-            if value:
-                variable_row = f'global {name} = """{value}"""'
-                variable_table.append(variable_row)
-
-        if not variable_table:
-            return ""
-
-        header = (
-            "\n# Variables\n## The AI Assistant has access to these variables. Variables are local unless explicitly "
-            'declared as global. Each variable is a string with the value enclosed in triple quotes ("""):\n'
-        )
-        return header + "\n".join(variable_table)
-
-    async def compile_history(self) -> str:
-        if not self.task_execution.steps:
-            return ""
-
-        step_table = []
-        used_variables = []
-
-        for step in self.task_execution.steps:
-            if not step.observation:
-                continue
-
-            outcome = step.observation.response
-
-            variable_names = self.variables.get(outcome)
-            try:
-                variable_name = next(
-                    name for name in variable_names if name not in used_variables
-                )
-            except StopIteration:
-                variable_name = variable_names[-1]
-
-            used_variables.append(variable_name)
-
-            tool_arg_list = [
-                f"{name}={json.dumps(value)}"
-                for name, value in step.decision.tool_args.items()
-            ]
-            tool_args = ", ".join(tool_arg_list)
-
-            if outcome and outcome in self.variables:
-                step_table.append(
-                    f">>> {variable_name} = {step.decision.tool_name}({tool_args})"
-                )
-            else:
-                step_table.append(f">>> {step.decision.tool_name}({tool_args})")
-
-            if not step.observation.success or outcome.startswith("Error"):
-                step_table.append(step.observation.error_reason or outcome)
-            else:
-                step_table.append(
-                    f"Success! Result stored in local variable {variable_name}."
-                )
-
-        return "\n".join(step_table)
+        self.llm_planner = llm_planner
+        self.llm_decider = llm_decider
     
-    def plan():
-        pass
+    async def plan(self, prompt_variables: dict[str, str]) -> str:
+        """Take the current task and history to develop a plan"""
+        prompt = self.planning_prompt_template.format(**prompt_variables)
 
-    def decide():
-        pass
+        logger.info("\n=== Plan Request ===")
+        logger.info(prompt)
+        
+        response = await call_llm(
+            messages=[Message(role="user", content=prompt)],
+            model=self.llm_planner
+        )
+
+        logger.info("\n=== Plan Created ===")
+        logger.info(response.content)
+        return response.content
+
+    async def decide(self, prompt_variables: dict[str, str]) -> Decision:
+        """Take the current plan to make a decision about next action"""
+        prompt = self.deciding_prompt_template.format(**prompt_variables)
+
+        logger.info("\n=== Decision Request ===")
+        logger.info(prompt)
+
+        #TODO how to implement functions in kwargs as descriptions and also in Function Calling of OPENAI
+        #I should delete {functions} from prompt template??? or maybe I dont need to attach Functions_Calling_openai???
+        #should I delete {history} from prompt if I do an array of Messages? i think No because GPT-4 is not capab
+        # I need to CHECK if is able to call 2 functions in row before giving output to user ???
+        # messages=[user, assistant, function1, assistant, function2] after function1 the gpt-4 should call function2
+
+        # I need also answer if there is .content != None when function calling hmmm, when I only send call 
+        # without attaching Functions_Calling_openai??? IMPORTANT !!!! this is original logic
+        response = await call_llm(
+            messages=[Message(role="user", content=prompt)],
+            model=self.llm_decider,
+            functions=[Function()]
+        )
+        
+        logger.info("\n=== Decision Created ===")
+        logger.info(json.dumps(response.function_call , indent=4))
+
+        return await interpret_llm_response(
+            prompt_variables=prompt_variables, response=response
+        )
 
     def execute():
+        """Execute the decieded action"""
         pass

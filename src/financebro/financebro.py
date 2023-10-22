@@ -134,7 +134,11 @@ class FinanceBro:
         decomposed = await self.decomposer.decompose()
         for step in decomposed:
             # WHAT other arguments need intern ?? TODO
-            specialization = self.specialisation_registry[step["agent"]]()
+            specialization = self.specialisation_registry[step["agent"]](
+                llm_planner=self.config.planner_model,
+                llm_decider=self.config.decider_model
+            )
+            
             intern = Intern(
                 financebro=self,
                 specialization=specialization,
