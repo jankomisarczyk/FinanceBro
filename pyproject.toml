@@ -16,6 +16,8 @@ pydantic-settings = "^2.0.3"
 openai = "^0.28.1"
 coloredlogs = "^15.0.1"
 python-statemachine = "^2.1.2"
+pydantic = "^2.4.2"
+beautifulsoup4 = "^4.12.2"
 
 
 [build-system]

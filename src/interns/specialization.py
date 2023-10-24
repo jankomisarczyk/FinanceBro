@@ -8,8 +8,8 @@ logger = logging.getLogger(__name__)
 
 class Specialization:
     NAME = ""
-    TOOLS = []
     DESCRIPTION = ""
+    PLUGINS = []
     llm_planner: str
     planning_prompt_template: str = PLANNING_PROMPT_TEMPLATE
     llm_decider: str
@@ -54,6 +54,7 @@ class Specialization:
         response = await call_llm(
             messages=[Message(role="user", content=prompt)],
             model=self.llm_decider,
+            
             functions=[Function()]
         )
         

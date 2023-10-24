@@ -4,5 +4,6 @@ src/llmopenai/__pycache__/
 src/decomposer/__pycache__/
 src/financebro/__pycache__/
 src/interns/__pycache__/
+src/plugins/__pycache__/
 logs/
 .env
