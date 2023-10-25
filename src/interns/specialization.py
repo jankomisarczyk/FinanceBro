@@ -1,15 +1,17 @@
 import logging
 import json
+from typing import Dict, Type
 from src.llmopenai import call_llm, Message
 from src.interns.prompt_templates import PLANNING_PROMPT_TEMPLATE, DECIDING_PROMPT_TEMPLATE
 from src.interns.step import Decision
+from src.plugins.plugin import Plugin
 
 logger = logging.getLogger(__name__)
 
 class Specialization:
-    NAME = ""
-    DESCRIPTION = ""
-    PLUGINS = []
+    NAME: str
+    DESCRIPTION: str
+    PLUGINS: Dict[str, Type[Plugin]]
     llm_planner: str
     planning_prompt_template: str = PLANNING_PROMPT_TEMPLATE
     llm_decider: str

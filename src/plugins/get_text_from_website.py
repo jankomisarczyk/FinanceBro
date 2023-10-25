@@ -13,13 +13,15 @@ PLUGIN_DESCRIPTION = (
     "information from a webpage without the need for in-depth analysis."
 )
 
-class GetWebsiteTextArgs(BaseModel):
-    url: Argument = Argument(type="string", description="The URL of the webpage from which to retrieve the text content.")
+ARGS_SCHEMA = {
+    "url": Argument(type="string", description="The URL of the webpage from which to retrieve the text content.")
+}
+    
 
 class GetWebsiteText(Plugin):
     name = PLUGIN_NAME
     description = PLUGIN_DESCRIPTION
-    args_schema = GetWebsiteTextArgs().model_dump()
+    args_schema = ARGS_SCHEMA
     required = ["url"]
     categories = ["Web"]
     
