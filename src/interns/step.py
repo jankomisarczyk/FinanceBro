@@ -1,13 +1,11 @@
-from dataclasses import dataclass
+from pydantic import BaseModel
 from typing import Dict
 
-@dataclass
-class Decision:
+class Decision(BaseModel):
     tool_name: str = None
     tool_args: Dict[str, str] = None
 
-@dataclass
-class Step:
+class Step(BaseModel):
     intern_name: str = None
     plan: str = None
     decision: Decision = None

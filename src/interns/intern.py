@@ -100,14 +100,19 @@ class Intern:
         )
         return header + "\n".join(variable_table)
     
+    def compile_functions(self) -> str:
+        function_table = []
+        for plugin in self.specialization.PLUGINS.values():
+            function_table.append(plugin.to_functions_list())
+        
+        return "\n".join(function_table)
+    
     def prompt_kwargs(self) -> dict[str, str]:
         task = self.instructions
         variables = self.compile_global_variables()
         files = self.compile_files()
         history = self.compile_history()
-
-        #TODO when developing tools I will implement it
-        functions = "functions_detail_list(self.specialization.TOOLS.values())"
+        functions = self.compile_functions()
 
         return {
             "task": task,
@@ -122,6 +127,7 @@ class Intern:
             return None
         
         self.steps.append(Step())
+        self.current_step.intern_name = self.specialization.NAME
 
         #planning
         self.status.plan()
@@ -136,9 +142,10 @@ class Intern:
         self.current_step.decision = decision
 
         #executing
-        #TODO
+        self.status.execute()
+        execution = await self.specialization.execute(decision)
+        self.current_step.execution = execution
 
-    def create_step():
-        pass
-
+        if execution == "exit":
+            self.complete = True
 

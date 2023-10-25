@@ -53,20 +53,33 @@ class Specialization:
 
         # I need also answer if there is .content != None when function calling hmmm, when I only send call 
         # without attaching Functions_Calling_openai??? IMPORTANT !!!! this is original logic
+        
         response = await call_llm(
             messages=[Message(role="user", content=prompt)],
             model=self.llm_decider,
-            
-            functions=[Function()]
+            functions=[plugin.to_openai_function() for plugin in self.PLUGINS.values()]
         )
         
         logger.info("\n=== Decision Created ===")
-        logger.info(json.dumps(response.function_call , indent=4))
+        logger.info(response.function_call)
 
-        return await interpret_llm_response(
-            prompt_variables=prompt_variables, response=response
+        #TODO logic to re-try Deciding if response is NOT valid function
+
+        return Decision(
+            tool_name=response.function_call.name,
+            tool_args=response.function_call.arguments
         )
 
-    def execute():
+    async def execute(self, decision: Decision) -> str:
         """Execute the decieded action"""
-        pass
+        plugin = self.PLUGINS[decision.tool_name]
+        if not plugin:
+            return f"Invalid tool name received: {decision.tool_name}."
+        
+        try:
+            result = await plugin.arun(**decision.tool_args)
+            logger.info("\n=== Execution observation ===")
+            logger.info(result)
+            return result
+        except Exception as e:
+            return f"Error on execution of {decision.tool_name}: {e}"

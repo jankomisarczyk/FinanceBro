@@ -11,7 +11,6 @@ class Argument(BaseModel):
     type: str
     enum: Optional[List[Any]] = None
     description: str
-#.model_dump(exclude_none=True)
 
 class Parameters(BaseModel):
     type: str = "object"
@@ -23,18 +22,18 @@ class Function(BaseModel):
     description: str
     parameters: Parameters
 
+class FunctionCall(BaseModel):
+    name: str
+    arguments: Optional[Dict[str, str]] = None
 
-@dataclass
-class LLMResponse:
-    content: str = None
-    function_call: Dict[str, Any] = None
-    role: str = None
+class LLMResponse(BaseModel):
+    content: Optional[str] = None
+    function_call: Optional[FunctionCall] = None
+    role: str
 
-@dataclass
-class Message:
+class Message(BaseModel):
     role: str
     content: str
-
 
 async def call_llm(
     messages: List[Message],
@@ -43,22 +42,21 @@ async def call_llm(
     functions: List[Function] = None
 ) -> LLMResponse:
     #TODO here I need to replace asdict with model_dump :D
-    messages = [asdict(message) for message in messages]
+    messages_list = [mess.model_dump() for mess in messages]
     logger.debug(f"~~ LLM Request ~~\n{messages}")
 
     if functions:
         response = await openai.ChatCompletion.acreate(
             model=model,
-            messages=messages,
-            functions
-            # functions=[asdict(function) for function in functions],
+            messages=messages_list,
+            functions=[func.model_dump(exclude_none=True) for func in functions],
             top_p=0.1,
             function_call=function_call
         )
     else:
         response = await openai.ChatCompletion.acreate(
             model=model,
-            messages=messages,
+            messages=messages_list,
             top_p=0.1
         )
 
@@ -66,4 +64,16 @@ async def call_llm(
 
     logger.debug(f"~~ LLM Response ~~\n{response_message}")
     logger.debug(json.dumps(response_message))
-    return LLMResponse(**response_message)
+
+    if "function_call" in response_message:
+        args = response_message["function_call"]["arguments"]
+        return LLMResponse(
+            content=response_message["content"],
+            role=response_message["role"],
+            function_call=FunctionCall(
+                name=response_message["function_call"]["name"],
+                arguments=json.loads(args)
+            )
+        )
+    else:
+        return LLMResponse(**response_message)

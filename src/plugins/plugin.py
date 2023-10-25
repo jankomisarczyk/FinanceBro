@@ -10,7 +10,7 @@ class Plugin(ABC):
     categories: Optional[List[str]] = None
 
     @abstractclassmethod
-    def arun(self, *args, **kwargs):
+    async def arun(self, *args, **kwargs):
         pass
 
     def to_openai_function(self) -> Function:
