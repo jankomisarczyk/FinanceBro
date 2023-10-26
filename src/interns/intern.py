@@ -37,10 +37,6 @@ class Intern:
         self.status = Status()
         self.steps = []
 
-    @property
-    def current_step(self) -> Union[Step, None]:
-        return self.steps[-1] if self.steps else None
-    
     def compile_history(self) -> str:
         step_table = []
 
@@ -122,32 +118,31 @@ class Intern:
             "history": history,
         }
 
-    async def do_step(self) -> Union[Step, None]:
-        if self.complete:
-            return None
-        
+    async def do_step(self) -> Step:
         self.steps.append(Step())
-        self.current_step.intern_name = self.specialization.NAME
+        
+        current_step = self.steps[-1]
+        current_step.intern_name = self.specialization.NAME
 
         #planning
         self.status.plan()
         prompt_variables = self.prompt_kwargs()
         plan = await self.specialization.plan(prompt_variables)
-        self.current_step.plan = plan
+        current_step.plan = plan
 
         #deciding
         self.status.decide()
         prompt_variables["plan"] = plan
         decision = await self.specialization.decide(prompt_variables)
-        self.current_step.decision = decision
+        current_step.decision = decision
 
         #executing
         self.status.execute()
         execution = await self.specialization.execute(decision)
-        self.current_step.execution = execution
+        current_step.execution = execution
 
-        if self.current_step.execution.complete:
+        if current_step.execution.complete:
             self.complete = True
 
-        return self.current_step
+        return current_step
 

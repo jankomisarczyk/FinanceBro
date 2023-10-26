@@ -1,7 +1,7 @@
 import logging
 import os.path
 from typing import Union, List, Dict
-
+from src.interns.step import Step
 from src.interns.intern import Intern
 from src.interns.specialization import Specialization
 from src.config import Config
@@ -44,34 +44,6 @@ class FinanceBro:
             os.makedirs(self.config.workspace_path, exist_ok=True)
 
     @property
-    def global_variables(self) -> Dict[str, str]:
-        return self.global_variables
-    
-    @global_variables.setter
-    def global_variables(self, value) -> None:
-        if isinstance(value, dict):
-            for key in value:
-                if key in self.global_variables:
-                    print(f"Overwriting global variable {key}:{self.global_variables[key]} with new value {value[key]}")
-                self.global_variables[key] = value[key]
-        else:
-            raise ValueError("To add a global variable it must be in dictionary")
-        
-    @property
-    def global_files(self) -> Dict[str, str]:
-        return self.global_files
-    
-    @global_files.setter
-    def global_files(self, value) -> None:
-        if isinstance(value, dict):
-            for key in value:
-                if key in self.global_files:
-                    print(f"Overwriting global file description {key}:{self.global_files[key]} with new value {value[key]}")
-                self.global_files[key] = value[key]
-        else:
-            raise ValueError("To add a global file it must be in dictionary")
-
-    @property
     def current_intern(self) -> Union[Intern, None]:
         try:
             return next(
@@ -82,10 +54,10 @@ class FinanceBro:
         except StopIteration:
             return None
 
-    async def setup(self):
+    async def setup(self) -> None:
         await self.decompose_task()
 
-    async def cycle(self) -> str("Step"):
+    async def cycle(self) -> Union[Step, None]:
         # TODO implement Step that goes through intern
         """Step through one decide-execute-plan loop"""
         if not self.current_intern:
@@ -97,10 +69,18 @@ class FinanceBro:
         step = await intern.do_step()
         
         if step.execution.set_files:
-            self.global_files.update(step.execution.set_files)
+            for key in step.execution.set_files:
+                if key in self.global_files:
+                    logger.warning(f"Overwriting global file description {key}:{self.global_files[key]} "
+                                   f"with new value '{step.execution.set_files[key]}'")
+                self.global_files[key] = step.execution.set_files[key]
 
         if step.execution.set_variables:
-            self.global_variables.update(step.execution.set_variables)
+            for key in step.execution.set_variables:
+                if key in self.global_variables:
+                    logger.warning(f"Overwriting global variable {key}:{self.global_variables[key]} "
+                                   f"with new value '{step.execution.set_variables[key]}'")
+                self.global_variables[key] = step.execution.set_variables[key]
 
         logger.debug(step.model_dump())
 
