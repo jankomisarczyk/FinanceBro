@@ -143,7 +143,7 @@ class Intern:
 
         #executing
         self.status.execute()
-        execution = await self.specialization.execute(decision=decision)
+        execution = await self.specialization.execute(decision)
         self.current_step.execution = execution
 
         if self.current_step.execution.complete:
