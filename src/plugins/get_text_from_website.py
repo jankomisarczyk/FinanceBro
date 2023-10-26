@@ -3,7 +3,6 @@ from src.plugins.plugin import Plugin
 from src.llmopenai import Argument
 import requests
 from bs4 import BeautifulSoup
-from pydantic import BaseModel
 from src.plugins.templates import SUMMARIZATION_PROMPT_TEMPLATE
 from src.llmopenai import call_llm, Message
 from src.interns.step import Execution
@@ -13,7 +12,6 @@ PLUGIN_DESCRIPTION = (
     "Extracts the text content from the HTML of a specified webpage. It is useful when you want to obtain the textual"
     "information from a webpage without the need for in-depth analysis."
 )
-
 ARGS_SCHEMA = {
     "url": Argument(type="string", description="The URL of the webpage from which to retrieve the text content.")
 }
@@ -26,20 +24,21 @@ class GetWebsiteText(Plugin):
     required = ["url"]
     categories = ["Web"]
     
-    async def arun(self, url: str) -> Execution:
+    async def arun(url: str) -> Execution:
         try:
             response = requests.get(url)
             soup = BeautifulSoup(response.text, "html.parser")
             stripped_text = re.sub(r"\s+", " ", soup.get_text().strip())
-            document = await self.filter_long_documents(stripped_text)
+            document = await GetWebsiteText.filter_long_documents(stripped_text)
             return Execution(
                 observation=document
             )
         except Exception as e:
             return Execution(
-                observation=f"Error on execution of {self.name}: {e}"
+                observation=f"Error on execution of {GetWebsiteText.name}: {e}"
             )
     
+    @staticmethod
     async def filter_long_documents(document: str) -> str:
         if len(document) > 1000:
             summary_prompt = SUMMARIZATION_PROMPT_TEMPLATE.format(long_text=document[:8000])

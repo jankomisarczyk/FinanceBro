@@ -51,7 +51,7 @@ class Intern:
             tool_args = ", ".join(tool_arg_list)
             
             step_table.append(f">>> {step.decision.tool_name}({tool_args})")
-            step_table.append(step.execution)
+            step_table.append(step.execution.observation)
 
         if not step_table:
             return ""

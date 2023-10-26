@@ -42,6 +42,7 @@ class FinanceBro:
 
         if not os.path.exists(self.config.workspace_path):
             os.makedirs(self.config.workspace_path, exist_ok=True)
+        os.chdir(self.config.workspace_path)
 
     @property
     def current_intern(self) -> Union[Intern, None]:
