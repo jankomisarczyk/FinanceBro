@@ -4,7 +4,7 @@ import json
 import logging
 import os
 from json import JSONDecodeError
-from typing import Any, Type, TYPE_CHECKING
+from typing import Any, TYPE_CHECKING
 from src.llmopenai import call_llm
 from src.llmopenai import Message
 
@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 class Decomposer:
-    specialisation_registry: dict[str, Type[Specialization]]
+    specialisation_registry: dict[str, Specialization]
     task: str
     model: str
 

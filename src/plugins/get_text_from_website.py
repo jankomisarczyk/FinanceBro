@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 from pydantic import BaseModel
 from src.plugins.templates import SUMMARIZATION_PROMPT_TEMPLATE
 from src.llmopenai import call_llm, Message
+from src.interns.step import Execution
 
 PLUGIN_NAME = "get_website_content"
 PLUGIN_DESCRIPTION = (
@@ -25,16 +26,24 @@ class GetWebsiteText(Plugin):
     required = ["url"]
     categories = ["Web"]
     
-    async def arun(self, url: str) -> str:
-        response = requests.get(url)
-        soup = BeautifulSoup(response.text, "html.parser")
-        stripped_text = re.sub(r"\s+", " ", soup.get_text().strip())
-        return await self.filter_long_documents(stripped_text)
+    async def arun(self, url: str) -> Execution:
+        try:
+            response = requests.get(url)
+            soup = BeautifulSoup(response.text, "html.parser")
+            stripped_text = re.sub(r"\s+", " ", soup.get_text().strip())
+            document = await self.filter_long_documents(stripped_text)
+            return Execution(
+                observation=document
+            )
+        except Exception as e:
+            return Execution(
+                observation=f"Error on execution of {self.name}: {e}"
+            )
     
     async def filter_long_documents(document: str) -> str:
         if len(document) > 1000:
-            summary_prompt = SUMMARIZATION_PROMPT_TEMPLATE.format(long_text=document[:8000]).content
+            summary_prompt = SUMMARIZATION_PROMPT_TEMPLATE.format(long_text=document[:8000])
             summarization = await call_llm(messages=[Message(role="user", content=summary_prompt)])
-            return f"The response was summarized as: {summarization.text}"
+            return f"The response was summarized as: {summarization.content}"
 
         return document

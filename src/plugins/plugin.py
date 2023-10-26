@@ -1,5 +1,6 @@
 from src.llmopenai import Function, Parameters, Argument
-from abc import ABC, abstractclassmethod
+from src.interns.step import Execution
+from abc import ABC, abstractmethod
 from typing import List, Optional, Dict
 
 class Plugin(ABC):
@@ -9,23 +10,26 @@ class Plugin(ABC):
     required: List[str]
     categories: Optional[List[str]] = None
 
-    @abstractclassmethod
-    async def arun(self, *args, **kwargs):
+    @staticmethod
+    @abstractmethod
+    async def arun(*args, **kwargs) -> Execution:
         pass
 
-    def to_openai_function(self) -> Function:
+    @classmethod
+    def to_openai_function(cls) -> Function:
         return Function(
-            name=self.name,
-            description=self.description,
+            name=cls.name,
+            description=cls.description,
             parameters=Parameters(
-                properties=self.args_schema,
-                required=self.required
+                properties=cls.args_schema,
+                required=cls.required
             )
         )
     
-    def to_functions_list(self) -> str:
+    @classmethod
+    def to_functions_list(cls) -> str:
         args = []
-        for arg_name, arg in self.args_schema.items():
+        for arg_name, arg in cls.args_schema.items():
             arg_type = arg.type
             if arg_type == "string":
                 arg_type = "str"
@@ -37,4 +41,4 @@ class Plugin(ABC):
                 arg_type = "float"
             args.append(f"{arg_name}: {arg_type}")
 
-        return f"{self.name}({', '.join(args)})"
+        return f"{cls.name}({', '.join(args)})"

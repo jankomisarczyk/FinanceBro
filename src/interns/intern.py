@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Type, Union, List, TYPE_CHECKING
+from typing import Union, List, TYPE_CHECKING
 from src.interns.step import Step
 from src.interns.status import Status
 import json
@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 
 class Intern:
     financebro: FinanceBro
-    specialization: Type[Specialization]
+    specialization: Specialization
     instructions: str
     inputs: List[str]
     outputs: List[str]
@@ -23,7 +23,7 @@ class Intern:
 
     def __init__(self,
                  financebro: FinanceBro = None, 
-                 specialization: Type[Specialization] = None, 
+                 specialization: Specialization = None, 
                  instructions: str = None, 
                  inputs: List[str]  = None,
                  outputs: List[str] = None,
@@ -38,7 +38,7 @@ class Intern:
         self.steps = []
 
     @property
-    def current_step(self):
+    def current_step(self) -> Union[Step, None]:
         return self.steps[-1] if self.steps else None
     
     def compile_history(self) -> str:
@@ -143,9 +143,11 @@ class Intern:
 
         #executing
         self.status.execute()
-        execution = await self.specialization.execute(decision)
+        execution = await self.specialization.execute(decision=decision)
         self.current_step.execution = execution
 
-        if execution == "exit":
+        if self.current_step.execution.complete:
             self.complete = True
+
+        return self.current_step
 

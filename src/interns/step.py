@@ -1,13 +1,19 @@
 from pydantic import BaseModel
-from typing import Dict
+from typing import Dict, Optional
 
 class Decision(BaseModel):
     tool_name: str = None
     tool_args: Dict[str, str] = None
 
+class Execution(BaseModel):
+    observation: str
+    complete: bool = False
+    set_variables: Optional[Dict[str, str]] = None
+    set_files: Optional[Dict[str, str]] = None
+
 class Step(BaseModel):
     intern_name: str = None
     plan: str = None
     decision: Decision = None
-    execution: str = None
+    execution: Execution = None
 

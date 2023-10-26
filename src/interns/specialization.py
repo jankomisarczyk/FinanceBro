@@ -1,9 +1,9 @@
 import logging
 import json
-from typing import Dict, Type
+from typing import Dict
 from src.llmopenai import call_llm, Message
 from src.interns.prompt_templates import PLANNING_PROMPT_TEMPLATE, DECIDING_PROMPT_TEMPLATE
-from src.interns.step import Decision
+from src.interns.step import Decision, Execution
 from src.plugins.plugin import Plugin
 
 logger = logging.getLogger(__name__)
@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class Specialization:
     NAME: str
     DESCRIPTION: str
-    PLUGINS: Dict[str, Type[Plugin]]
+    PLUGINS: Dict[str, Plugin]
     llm_planner: str
     planning_prompt_template: str = PLANNING_PROMPT_TEMPLATE
     llm_decider: str
@@ -38,7 +38,7 @@ class Specialization:
         logger.info(response.content)
         return response.content
 
-    async def decide(self, prompt_variables: dict[str, str]) -> Decision:
+    async def decide(self, prompt_variables: Dict[str, str]) -> Decision:
         """Take the current plan to make a decision about next action"""
         prompt = self.deciding_prompt_template.format(**prompt_variables)
 
@@ -70,16 +70,16 @@ class Specialization:
             tool_args=response.function_call.arguments
         )
 
-    async def execute(self, decision: Decision) -> str:
+    async def execute(self, decision: Decision) -> Execution:
         """Execute the decieded action"""
         plugin = self.PLUGINS[decision.tool_name]
         if not plugin:
-            return f"Invalid tool name received: {decision.tool_name}."
+            return Execution(
+                observation=f"Invalid tool name received: {decision.tool_name}."
+                )
         
-        try:
-            result = await plugin.arun(**decision.tool_args)
-            logger.info("\n=== Execution observation ===")
-            logger.info(result)
-            return result
-        except Exception as e:
-            return f"Error on execution of {decision.tool_name}: {e}"
+        execution = await plugin.arun(**decision.tool_args)
+        logger.info("\n=== Execution observation ===")
+        logger.info(execution.observation)
+
+        return execution

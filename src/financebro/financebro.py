@@ -1,13 +1,11 @@
 import logging
 import os.path
-from typing import Union, Type, List, Dict
+from typing import Union, List, Dict
 
 from src.interns.intern import Intern
 from src.interns.specialization import Specialization
 from src.config import Config
 from src.decomposer.decomposer import Decomposer
-    
-    
     
 
 logger = logging.getLogger(__name__)
@@ -24,7 +22,7 @@ class FinanceBro:
     global_files: Dict[str, str]
 
     interns: List[Intern]
-    specialisation_registry: Dict[str, Type[Specialization]]
+    specialisation_registry: Dict[str, Specialization]
     decomposer: Decomposer
     config: Config
 
@@ -84,48 +82,27 @@ class FinanceBro:
         except StopIteration:
             return None
 
-    @property
-    def is_done(self):
-        return self.current_intern is None
-
     async def setup(self):
         await self.decompose_task()
 
     async def cycle(self) -> str("Step"):
         # TODO implement Step that goes through intern
         """Step through one decide-execute-plan loop"""
-        if self.is_done:
-            return
+        if not self.current_intern:
+            # We're done
+            return None
 
         intern = self.current_intern
         # each intern plans, rapairs, decide and execute a step
-        step = await intern.cycle()
+        step = await intern.do_step()
+        
+        if step.execution.set_files:
+            self.global_files.update(step.execution.set_files)
 
-        # If this subtask is complete, prime the next subtask
-        if intern.complete:
-            next_intern = self.current_intern
-            # We're done
-            if not next_intern:
-                return None
+        if step.execution.set_variables:
+            self.global_variables.update(step.execution.set_variables)
 
-            if not next_intern.current_step:
-                await next_intern.create_new_step()
-
-            if next_intern:
-                documents = await intern.current_step.documents
-                for name, document in documents.items():
-                    if name in next_intern.inputs:
-                        await next_intern.current_step.add_document(document)
-
-        # logger(
-        #     "CycleComplete",
-        #     payload={
-        #         "oversight": step.oversight.__dict__ if step.oversight else None,
-        #         "plan": step.plan.__dict__ if step.plan else None,
-        #         "decision": step.decision.__dict__ if step.decision else None,
-        #         "observation": step.observation.__dict__ if step.observation else None,
-        #     },
-        # )
+        logger.debug(step.model_dump())
 
         return step
 
