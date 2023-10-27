@@ -24,7 +24,7 @@ class Function(BaseModel):
 
 class FunctionCall(BaseModel):
     name: str
-    arguments: Optional[Dict[str, str]] = None
+    arguments: Optional[Dict[str, Any]] = None
 
 class LLMResponse(BaseModel):
     content: Optional[str] = None

@@ -4,6 +4,8 @@ from typing import Union, List, Dict
 from src.interns.step import Step
 from src.interns.intern import Intern
 from src.interns.specialization import Specialization
+from src.interns.generalist_specialization import Generalist
+from src.interns.research_specialization import Research
 from src.config import Config
 from src.decomposer.decomposer import Decomposer
     
@@ -102,8 +104,6 @@ class FinanceBro:
                 specialization=specialization,
                 instructions=step["instructions"],
                 inputs=step["inputs"],
-                outputs=step["outputs"],
-                global_variables=self.global_variables,
-                global_files=self.global_files
+                outputs=step["outputs"]
             )
             self.interns.append(intern)

@@ -41,5 +41,5 @@ class WriteFile(Plugin):
     async def summarize_content(document: str) -> str:
         description_prompt = DESCRIPTION_PROMPT_TEMPLATE.format(file_text=document)
         description = await call_llm(messages=[Message(role="user", content=description_prompt)])
-        return description
+        return description.content
     

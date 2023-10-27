@@ -1,9 +1,9 @@
 from pydantic import BaseModel
-from typing import Dict, Optional
+from typing import Dict, Optional, Any
 
 class Decision(BaseModel):
     tool_name: str = None
-    tool_args: Dict[str, str] = None
+    tool_args: Dict[str, Any] = None
 
 class Execution(BaseModel):
     observation: str
