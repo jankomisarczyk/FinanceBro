@@ -1,12 +1,9 @@
 from src.interns.specialization import Specialization
-
-class Research(Specialization):
-    NAME = "Research Agent"
-    DESCRIPTION = "Research Agent: Excels at searching for sources of information and analyzing those sources"
-
-    @property
-    def planning_prompt_template(self):
-        return PLANNING_PROMPT_TEMPLATE
+from src.plugins.exit import Exit
+from src.plugins.export_variable import ExportVariable
+from src.plugins.extract_information_from_webpage import ExtractInformationFromWebpage
+from src.plugins.get_text_from_website import GetWebsiteText
+from src.plugins.google_search import GoogleSearch
 
 
 PLANNING_PROMPT_TEMPLATE = """As the Research Strategist for an AI Assistant, your role is to strategize and plan research tasks efficiently and effectively. Avoid redundancy, such as unnecessary immediate verification of actions.
@@ -36,3 +33,17 @@ Now, devise a concise and adaptable research plan to guide the AI Assistant. Fol
 4. Direct the execution of the immediate next action using exactly one of the available functions, making sure to skip any redundant actions that are already confirmed by the historical context.
 
 Provide a concise analysis of the past history, followed by a step-by-step summary of your plan going forward, and end with one sentence describing the immediate next action to be taken."""
+
+
+class Research(Specialization):
+    NAME = "Research Agent"
+    DESCRIPTION = "Research Agent: Excels at searching for sources of information and analyzing those sources"
+    PLUGINS = {
+        "extract_information_from_webpage": ExtractInformationFromWebpage,
+        "get_text_from_website": GetWebsiteText,
+        "google_search": GoogleSearch,
+        "export_variable": ExportVariable,
+        "exit": Exit
+    }
+    planning_prompt_template = PLANNING_PROMPT_TEMPLATE
+

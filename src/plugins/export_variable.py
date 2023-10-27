@@ -13,7 +13,9 @@ class ExportVariable(Plugin):
     name = PLUGIN_NAME
     description = PLUGIN_DESCRIPTION
     args_schema = ARGS_SCHEMA
+    required = ["name", "value"]
     categories = []
 
+    @staticmethod
     async def arun(name: str, value: str) -> Execution:
         return Execution(observation="Variable export was successful", set_variables={name: value})

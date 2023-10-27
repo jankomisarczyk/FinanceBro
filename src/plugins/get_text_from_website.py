@@ -24,6 +24,7 @@ class GetWebsiteText(Plugin):
     required = ["url"]
     categories = ["Web"]
     
+    @staticmethod
     async def arun(url: str) -> Execution:
         try:
             response = requests.get(url)

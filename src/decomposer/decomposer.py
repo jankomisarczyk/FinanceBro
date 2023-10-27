@@ -49,11 +49,11 @@ class Decomposer:
         return parsed_response
 
     def starting_files(self) -> str:
-        directory = self.body.config.workspace_path
+        #TODO I need to re-factor this, so that each file already existing in workspace is in global files
 
         file_list = []
-        for file in os.listdir(directory):
-            abs_path = os.path.abspath(os.path.join(directory, file.replace("/", "_")))
+        for file in os.listdir():
+            abs_path = os.path.abspath(os.path.join(file.replace("/", "_")))
             if not os.path.isdir(abs_path):
                 file_list.append(f"- {file}")
 

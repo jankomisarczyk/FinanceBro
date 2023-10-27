@@ -36,8 +36,6 @@ You have these functions at your disposal:
 Your original task, given by the human, is:
 {task}
 
-# History
-You have a history of functions that the AI Assistant has already executed for this task. Here is the history, in order, starting with the first function executed:
 {history}
 {variables}
 {file_list}

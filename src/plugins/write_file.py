@@ -22,8 +22,10 @@ class WriteFile(Plugin):
     name = PLUGIN_NAME
     description = PLUGIN_DESCRIPTION
     args_schema = ARGS_SCHEMA
+    required = ["filename", "text_content"]
     categories = ["Files"]
 
+    @staticmethod
     async def arun(filename: str, text_content: str) -> Execution:
         # Writing to file
         with open(f'{filename}.txt', 'w') as f:

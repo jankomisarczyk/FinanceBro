@@ -18,6 +18,7 @@ coloredlogs = "^15.0.1"
 python-statemachine = "^2.1.2"
 pydantic = "^2.4.2"
 beautifulsoup4 = "^4.12.2"
+langchain = "^0.0.324"
 
 
 [build-system]
