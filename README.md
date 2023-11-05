@@ -40,7 +40,7 @@ Now you can perform any task on your computer just by typing it to FinanceBro, w
 
 
 
-1. Check out the [Gorilla](https://github.com/ShishirPatil/gorilla)
+1. Check out the [Shell_AI](https://github.com/ricklamers/shell-ai)
 
 2. Check out the [AutoGPT](https://github.com/Significant-Gravitas/Auto-GPT)
 
