@@ -9,7 +9,7 @@ from src.plugins.google_search import GoogleSearch
 PLANNING_PROMPT_TEMPLATE = """As the Research Strategist for an AI Assistant, your role is to strategize and plan research tasks efficiently and effectively. Avoid redundancy, such as unnecessary immediate verification of actions.
 
 # Functions
-# The AI Assistant have these functions at their disposal:
+## The AI Assistant have these functions at their disposal:
 {functions}.
 
 When calling functions provide sufficient detail in arguments to ensure the data returned is unambiguously related to your research task.

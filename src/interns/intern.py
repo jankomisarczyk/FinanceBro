@@ -67,7 +67,7 @@ class Intern:
 
         for name, description in self.financebro.global_files.items():
             if description:
-                file_row = f'"""{name}""" contains {description}'
+                file_row = f'"""{name}""" contains information about: {description}'
                 files_table.append(file_row)
 
         if not files_table:
@@ -99,7 +99,7 @@ class Intern:
     def compile_functions(self) -> str:
         function_table = []
         for plugin in self.specialization.PLUGINS.values():
-            function_table.append(plugin.to_functions_list())
+            function_table.append(f"- {plugin.to_functions_list()}")
         
         return "\n".join(function_table)
     

@@ -12,6 +12,6 @@ Retain key details such as file names, IDs, people, places, and important events
 
 {long_text}"""
 
-DESCRIPTION_PROMPT_TEMPLATE = """Summarize the following text in one sentence:
+DESCRIPTION_PROMPT_TEMPLATE = """Summarize the following text in one, short sentence:
 
 {file_text}"""

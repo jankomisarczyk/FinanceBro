@@ -6,7 +6,7 @@ from src.plugins.write_file import WriteFile
 
 class Generalist(Specialization):
     NAME = "Generalist Agent"
-    DESCRIPTION = "Generalist Agent: Excels at general tasks such as writing to a file"
+    DESCRIPTION = "Generalist Agent: Handles a wide variety of subtasks, such as writing to a file"
     PLUGINS = {
         "write_file": WriteFile,
         "export_variable": ExportVariable,
