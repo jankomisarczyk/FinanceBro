@@ -1,5 +1,6 @@
 from src.interns.specialization import Specialization
 from src.plugins.exit import Exit
+from src.plugins.shell_plugin import SuggestAndExecuteShellCommand
 from src.plugins.export_variable import ExportVariable
 from src.plugins.write_file import WriteFile
 
@@ -37,8 +38,12 @@ class FileManager(Specialization):
     NAME = "File Manager Agent"
     DESCRIPTION = "File Manager Agent: Excels at managing files and folders. It can perform wide verity of operations on files, including opening (viewing or printing), writing to a file, renaming, copying, moving, deleting and searching for files."
     PLUGINS = {
+        "read_file": TODO,
+        "open_file": TODO,
+        "list_files": TODO,
         "write_file": WriteFile,
         "export_variable": ExportVariable,
+        "suggest_and_execute_shell_command": SuggestAndExecuteShellCommand,
         "exit": Exit
     }
     planning_prompt_template = PLANNING_PROMPT_TEMPLATE
