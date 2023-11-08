@@ -52,7 +52,3 @@ class ExtractInformationFromWebpage(Plugin):
             return Execution(
                 observation=f"Error on execution of {ExtractInformationFromWebpage.name}: {e}"
             )
-
-
-
-        

@@ -2,7 +2,7 @@ import logging
 import json
 from typing import Dict
 from src.llmopenai import call_llm, Message
-from src.interns.prompt_templates import PLANNING_PROMPT_TEMPLATE, DECIDING_PROMPT_TEMPLATE
+from src.interns.prompt_templates import DECIDING_PROMPT_TEMPLATE
 from src.interns.step import Decision, Execution
 from src.plugins.plugin import Plugin
 
@@ -13,7 +13,7 @@ class Specialization:
     DESCRIPTION: str
     PLUGINS: Dict[str, Plugin]
     llm_planner: str
-    planning_prompt_template: str = PLANNING_PROMPT_TEMPLATE
+    planning_prompt_template: str
     llm_decider: str
     deciding_prompt_template: str = DECIDING_PROMPT_TEMPLATE
 

@@ -92,6 +92,6 @@ The following agents are specialized AI entities, each excelling in a certain ar
 Responses should be valid JSON and should not include any other explanatory text. Example:
 [
     {{"agent": "Research Agent", "inputs": ["my_topics.txt"], "outputs": [], "instructions": "Read the file my_topics.txt. Analyze the topics and export your analysis to the `topic_analysis` global variable."}},
-    {{"agent": "Generalist Agent", "inputs": [], "outputs": ["topic_summary.txt"], "instructions": "Write the contents of the global variable `topic_analysis` to the file topic_summary.txt"}}
+    {{"agent": "File Manager Agent", "inputs": [], "outputs": ["topic_summary.txt"], "instructions": "Write the contents of the global variable `topic_analysis` to the file topic_summary.txt"}}
 ]
 """
