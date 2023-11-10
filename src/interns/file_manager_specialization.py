@@ -5,6 +5,7 @@ from src.plugins.export_variable import ExportVariable
 from src.plugins.write_file import WriteFile
 from src.plugins.read_file import ReadFile
 from src.plugins.list_files import ListFiles
+from src.plugins.open_file import OpenFile
 
 
 PLANNING_PROMPT_TEMPLATE = """As the AI File Manager, your role is to strategize and plan the execution of tasks efficiently and effectively. Avoid redundancy, such as unnecessary immediate verification of actions.
@@ -41,7 +42,7 @@ class FileManager(Specialization):
     DESCRIPTION = "File Manager Agent: Excels at managing files and folders. It can perform wide verity of operations on files, including opening (viewing or printing), writing to a file, renaming, copying, moving, deleting and searching for files."
     PLUGINS = {
         "read_file": ReadFile,
-        "open_file": TODO,
+        "open_file": OpenFile,
         "list_files": ListFiles,
         "write_file": WriteFile,
         "export_variable": ExportVariable,
