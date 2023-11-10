@@ -3,6 +3,7 @@ from src.plugins.exit import Exit
 from src.plugins.shell_plugin import SuggestAndExecuteShellCommand
 from src.plugins.export_variable import ExportVariable
 from src.plugins.write_file import WriteFile
+from src.plugins.read_file import ReadFile
 
 
 PLANNING_PROMPT_TEMPLATE = """As the AI File Manager, your role is to strategize and plan the execution of tasks efficiently and effectively. Avoid redundancy, such as unnecessary immediate verification of actions.
@@ -38,7 +39,7 @@ class FileManager(Specialization):
     NAME = "File Manager Agent"
     DESCRIPTION = "File Manager Agent: Excels at managing files and folders. It can perform wide verity of operations on files, including opening (viewing or printing), writing to a file, renaming, copying, moving, deleting and searching for files."
     PLUGINS = {
-        "read_file": TODO,
+        "read_file": ReadFile,
         "open_file": TODO,
         "list_files": TODO,
         "write_file": WriteFile,

@@ -1,5 +1,3 @@
-import logging
-
 from src.plugins.plugin import Plugin
 from src.llmopenai import Argument
 from src.interns.step import Execution
@@ -15,8 +13,6 @@ ARGS_SCHEMA = {
     "filename": Argument(type="string", description="Specifies the name of the file to which the content will be written."),
     "text_content": Argument(type="string", description="The content that will be written to the specified file.")
 }
-
-logger = logging.getLogger(__name__)
 
 class WriteFile(Plugin):
     name = PLUGIN_NAME
