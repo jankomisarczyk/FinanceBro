@@ -4,6 +4,7 @@ from src.plugins.shell_plugin import SuggestAndExecuteShellCommand
 from src.plugins.export_variable import ExportVariable
 from src.plugins.write_file import WriteFile
 from src.plugins.read_file import ReadFile
+from src.plugins.list_files import ListFiles
 
 
 PLANNING_PROMPT_TEMPLATE = """As the AI File Manager, your role is to strategize and plan the execution of tasks efficiently and effectively. Avoid redundancy, such as unnecessary immediate verification of actions.
@@ -41,7 +42,7 @@ class FileManager(Specialization):
     PLUGINS = {
         "read_file": ReadFile,
         "open_file": TODO,
-        "list_files": TODO,
+        "list_files": ListFiles,
         "write_file": WriteFile,
         "export_variable": ExportVariable,
         "suggest_and_execute_shell_command": SuggestAndExecuteShellCommand,
