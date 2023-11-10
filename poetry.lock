@@ -618,6 +618,17 @@ lint = ["flake8 (==6.0.0)", "flake8-bugbear (==23.7.10)", "mypy (==1.4.1)", "pre
 tests = ["pytest", "pytz", "simplejson"]
 
 [[package]]
+name = "mistune"
+version = "3.0.1"
+description = "A sane and fast Markdown parser with useful plugins and renderers"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "mistune-3.0.1-py3-none-any.whl", hash = "sha256:b9b3e438efbb57c62b5beb5e134dab664800bdf1284a7ee09e8b12b13eb1aac6"},
+    {file = "mistune-3.0.1.tar.gz", hash = "sha256:e912116c13aa0944f9dc530db38eb88f6a77087ab128f49f84a48f4c05ea163c"},
+]
+
+[[package]]
 name = "multidict"
 version = "6.0.4"
 description = "multidict implementation"
@@ -1328,4 +1339,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.13"
-content-hash = "f87e72f8dd14585de02ab01a512181800275f76ca6d79bfd35ff1ee3a5dda34f"
+content-hash = "beb63509da5fd477b62f429003e677eb5e5b492ea3ada837742dad37de98bb14"

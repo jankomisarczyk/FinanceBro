@@ -41,7 +41,7 @@ class ExtractInformationFromWebpage(Plugin):
                 text = body_element.get_text(separator="\n")[:8000]
             else:
                 return Execution(
-                    observation=f"Error on execution of {ExtractInformationFromWebpage.name}: Error: Could not extract information from URL."
+                    observation=f"Error on execution of {ExtractInformationFromWebpage.name}: Could not extract information from URL."
                     )
             
             prompt = QUESTION_PROMPT_TEMPLATE.format(content=text, question=information, url=url)
