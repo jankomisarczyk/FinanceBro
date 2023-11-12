@@ -7,7 +7,7 @@ class Plugin(ABC):
     name: str
     description: str
     args_schema: Dict[str, Argument]
-    required: List[str] = []
+    required: List[str]
     categories: Optional[List[str]] = None
 
     @staticmethod

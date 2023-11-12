@@ -18,6 +18,7 @@ class Exit(Plugin):
     name = PLUGIN_NAME
     description = PLUGIN_DESCRIPTION
     args_schema = ARGS_SCHEMA
+    required = []
     categories = ["System"]
 
     async def arun(success: bool = True, conclusion: str = "") -> Execution:
