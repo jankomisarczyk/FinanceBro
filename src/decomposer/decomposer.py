@@ -78,7 +78,7 @@ DECOMPOSER_TEMPLATE = """
 **Agents**:
 Agents are Autonomous AI Entities. They will strictly follow your instructions, so be clear and avoid actions that aren't required by the human task.
 
-The following agents are specialized AI entities, each excelling in a certain area. 
+The following agents are specialized AI entities, each specializing in a certain area. 
 {agent_list}
 
 {files}
