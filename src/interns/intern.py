@@ -1,9 +1,11 @@
 from __future__ import annotations
 
-from typing import Union, List, TYPE_CHECKING
-from src.interns.step import Step
-from src.interns.status import Status
 import json
+from datetime import datetime
+from typing import TYPE_CHECKING, List
+
+from src.interns.status import Status
+from src.interns.step import Step
 
 if TYPE_CHECKING:
     from src.financebro.financebro import FinanceBro
@@ -109,6 +111,7 @@ class Intern:
         files = self.compile_files()
         history = self.compile_history()
         functions = self.compile_functions()
+        current_date = datetime.now().strftime("%Y-%m-%d")
 
         return {
             "task": task,
@@ -116,6 +119,7 @@ class Intern:
             "file_list": files,
             "variables": variables,
             "history": history,
+            "current_date": current_date
         }
 
     async def do_step(self) -> Step:

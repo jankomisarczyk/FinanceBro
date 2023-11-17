@@ -1,8 +1,7 @@
-from src.plugins.plugin import Plugin
-from src.llmopenai import Argument
 from src.interns.step import Execution
+from src.llmopenai import Argument, Message, call_llm
+from src.plugins.plugin import Plugin
 from src.plugins.templates import DESCRIPTION_PROMPT_TEMPLATE
-from src.llmopenai import call_llm, Message
 
 PLUGIN_NAME = "write_file"
 PLUGIN_DESCRIPTION = (
@@ -24,7 +23,9 @@ class WriteFile(Plugin):
     @staticmethod
     async def arun(filename: str, text_content: str) -> Execution:
         # Writing to file
-        with open(f'{filename}.txt', 'w') as f:
+        if not filename[-4:] == ".txt":
+            filename += ".txt"
+        with open(filename, 'w') as f:
             f.write(text_content)
         
         description = await WriteFile.summarize_content(text_content)

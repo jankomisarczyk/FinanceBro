@@ -1,7 +1,9 @@
-from src.llmopenai import Function, Parameters, Argument, Tool
-from src.interns.step import Execution
 from abc import ABC, abstractmethod
-from typing import List, Optional, Dict
+from typing import Dict, List, Optional
+
+from src.interns.step import Execution
+from src.llmopenai import Argument, Function, Parameters, Tool
+
 
 class Plugin(ABC):
     name: str
@@ -33,6 +35,7 @@ class Plugin(ABC):
         args = []
         for arg_name, arg in cls.args_schema.items():
             arg_type = arg.type
+            # re-naming 
             if arg_type == "string":
                 arg_type = "str"
             elif arg_type == "boolean":
@@ -41,6 +44,10 @@ class Plugin(ABC):
                 arg_type = "int"
             elif arg_type == "number":
                 arg_type = "float"
-            args.append(f"{arg_name}: {arg_type}")
+            # checking if required
+            if arg_name in cls.required:
+                args.append(f"{arg_name}: {arg_type}")
+            else:
+                args.append(f"{arg_name}: {arg_type} = None")
 
         return f"{cls.name}({', '.join(args)})"

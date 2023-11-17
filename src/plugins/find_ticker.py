@@ -1,17 +1,13 @@
-import re
-from src.plugins.plugin import Plugin
-from src.llmopenai import Argument
-import requests
 import os
-from bs4 import BeautifulSoup
-from src.plugins.templates import SUMMARIZATION_PROMPT_TEMPLATE
-from src.llmopenai import call_llm, Message
+
+import requests
+
 from src.interns.step import Execution
+from src.llmopenai import Argument
+from src.plugins.plugin import Plugin
 
 PLUGIN_NAME = "find_ticker"
-PLUGIN_DESCRIPTION = (
-    "Returns stock ticker symbol given company name."
-)
+PLUGIN_DESCRIPTION = "Returns stock ticker symbol given company name."
 ARGS_SCHEMA = {
     "company_name": Argument(type="string", description="Name of the company for which to find the ticker.")
 }
@@ -52,8 +48,7 @@ class FindTicker(Plugin):
             for match in data["bestMatches"]:
                 if match["4. region"] == "United States":
                     return match["1. symbol"]
-                else:
-                    return f"No US ticker found for {company_name}."
+            # if No US ticker found, return best match
             return data["bestMatches"][0]["1. symbol"]
         else:
             return f"No ticker found for {company_name}."
