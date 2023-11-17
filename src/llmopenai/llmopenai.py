@@ -1,19 +1,19 @@
 import json
 import logging
 from dataclasses import dataclass, asdict
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Literal
 from pydantic import BaseModel
-import openai
+from openai import AsyncOpenAI
 
 logger = logging.getLogger(__name__)
 
 class Argument(BaseModel):
     type: str
     enum: Optional[List[Any]] = None
-    description: str
+    description: Optional[str] = None
 
 class Parameters(BaseModel):
-    type: str = "object"
+    type: Literal["object"]
     properties: Dict[str, Argument]
     required: List[str]
 
@@ -22,14 +22,23 @@ class Function(BaseModel):
     description: str
     parameters: Parameters
 
+class Tool(BaseModel):
+    type: Literal["function"]
+    function: Function
+
 class FunctionCall(BaseModel):
     name: str
     arguments: Optional[Dict[str, Any]] = None
 
+class ToolCall(BaseModel):
+    id: str
+    type: Literal["function"]
+    function: FunctionCall
+
 class LLMResponse(BaseModel):
     content: Optional[str] = None
-    function_call: Optional[FunctionCall] = None
-    role: str
+    tool_calls: Optional[List[ToolCall]] = None
+    role: Literal["assistant"]
 
 class Message(BaseModel):
     role: str
@@ -38,42 +47,47 @@ class Message(BaseModel):
 async def call_llm(
     messages: List[Message],
     model: str = "gpt-3.5-turbo-0613",
-    function_call: str = "auto",
-    functions: List[Function] = None
+    tool_choice: str = "auto",
+    tools: List[Tool] = None
 ) -> LLMResponse:
     #TODO here I need to replace asdict with model_dump :D
+    client = AsyncOpenAI()
     messages_list = [mess.model_dump() for mess in messages]
     logger.debug(f"~~ LLM Request ~~\n{messages}")
 
-    if functions:
-        response = await openai.ChatCompletion.acreate(
+    if tools:
+        response = await client.chat.completions.create(
             model=model,
             messages=messages_list,
-            functions=[func.model_dump(exclude_none=True) for func in functions],
-            top_p=0.1,
-            function_call=function_call
+            tools=[tool.model_dump(exclude_none=True) for tool in tools],
+            tool_choice=tool_choice,
+            top_p=0.1
         )
     else:
-        response = await openai.ChatCompletion.acreate(
+        response = await client.chat.completions.create(
             model=model,
             messages=messages_list,
             top_p=0.1
         )
 
-    response_message = response["choices"][0]["message"]
+    response_message = response.choices[0].message
+    print(response.choices[0].message)
 
     logger.debug(f"~~ LLM Response ~~\n{response_message}")
-    logger.debug(json.dumps(response_message))
+    logger.debug(response_message.model_dump())
 
-    if "function_call" in response_message:
-        args = response_message["function_call"]["arguments"]
+    if response_message.tool_calls:
         return LLMResponse(
-            content=response_message["content"],
-            role=response_message["role"],
-            function_call=FunctionCall(
-                name=response_message["function_call"]["name"],
-                arguments=json.loads(args)
-            )
+            content=response_message.content,
+            role=response_message.role,
+            tool_calls=[ToolCall(
+                id=tool_call.id,
+                type=tool_call.type,
+                function=FunctionCall(
+                    name=tool_call.function.name,
+                    arguments=json.loads(tool_call.function.arguments)
+                )
+            ) for tool_call in response_message.tool_calls]
         )
     else:
-        return LLMResponse(**response_message)
+        return LLMResponse(**response_message.model_dump())

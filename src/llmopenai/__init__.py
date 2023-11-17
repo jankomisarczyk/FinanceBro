@@ -1,4 +1,4 @@
-from .llmopenai import call_llm, Message, LLMResponse, Function, Parameters, Argument
+from .llmopenai import call_llm, Message, LLMResponse, Function, Parameters, Argument, Tool
 
 __all__ = [
     "call_llm",
@@ -6,5 +6,6 @@ __all__ = [
     "LLMResponse",
     "Function",
     "Argument",
-    "Parameters"
+    "Parameters",
+    "Tool"
     ]

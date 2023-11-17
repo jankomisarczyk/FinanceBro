@@ -57,17 +57,17 @@ class Specialization:
         response = await call_llm(
             messages=[Message(role="user", content=prompt)],
             model=self.llm_decider,
-            functions=[plugin.to_openai_function() for plugin in self.PLUGINS.values()]
+            tools=[plugin.to_openai_tool() for plugin in self.PLUGINS.values()]
         )
         
         logger.info("\n=== Decision Created ===")
-        logger.info(response.function_call)
+        logger.info(response.tool_calls.function)
 
         #TODO logic to re-try Deciding if response is NOT valid function
 
         return Decision(
-            tool_name=response.function_call.name,
-            tool_args=response.function_call.arguments
+            tool_name=response.tool_calls.function.name,
+            tool_args=response.tool_calls.function.arguments
         )
 
     async def execute(self, decision: Decision) -> Execution:

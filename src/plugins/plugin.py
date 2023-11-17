@@ -1,4 +1,4 @@
-from src.llmopenai import Function, Parameters, Argument
+from src.llmopenai import Function, Parameters, Argument, Tool
 from src.interns.step import Execution
 from abc import ABC, abstractmethod
 from typing import List, Optional, Dict
@@ -16,13 +16,15 @@ class Plugin(ABC):
         pass
 
     @classmethod
-    def to_openai_function(cls) -> Function:
-        return Function(
-            name=cls.name,
-            description=cls.description,
-            parameters=Parameters(
-                properties=cls.args_schema,
-                required=cls.required
+    def to_openai_tool(cls) -> Tool:
+        return Tool(
+            function=Function(
+                name=cls.name,
+                description=cls.description,
+                parameters=Parameters(
+                    properties=cls.args_schema,
+                    required=cls.required
+                )
             )
         )
     
