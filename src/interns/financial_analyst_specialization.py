@@ -48,7 +48,6 @@ class FinancialAnalyst(Specialization):
         "get_income_statement_to_csv": GetIncomeStatementToCsv,
         "get_balance_sheet_to_csv": GetBalanceSheetToCsv,
         "get_cash_flow_statement_to_csv": GetCashFlowStatementToCsv,
-        "get_valuation measures_to_csv"
         "get_financial_news_to_txt"
         "get_reddit_news_to_txt"
         "analyze_company_data"
