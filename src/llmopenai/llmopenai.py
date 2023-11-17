@@ -30,6 +30,7 @@ class FunctionCall(BaseModel):
     name: str
     arguments: Optional[Dict[str, Any]] = None
 
+#TODO Do I need id, type in ToolCall and role in LLMResponse?
 class ToolCall(BaseModel):
     id: str
     type: Literal["function"]
@@ -50,7 +51,6 @@ async def call_llm(
     tool_choice: str = "auto",
     tools: Optional[List[Tool]] = None
 ) -> LLMResponse:
-    #TODO here I need to replace asdict with model_dump :D
     client = AsyncOpenAI()
     messages_list = [mess.model_dump() for mess in messages]
     logger.debug(f"~~ LLM Request ~~\n{messages}")
