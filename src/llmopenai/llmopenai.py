@@ -71,7 +71,6 @@ async def call_llm(
         )
 
     response_message = response.choices[0].message
-    print(response.choices[0].message)
 
     logger.debug(f"~~ LLM Response ~~\n{response_message}")
     logger.debug(response_message.model_dump())
