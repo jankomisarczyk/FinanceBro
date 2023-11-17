@@ -13,7 +13,7 @@ class Argument(BaseModel):
     description: Optional[str] = None
 
 class Parameters(BaseModel):
-    type: Literal["object"]
+    type: Literal["object"] = "object"
     properties: Dict[str, Argument]
     required: List[str]
 
@@ -23,7 +23,7 @@ class Function(BaseModel):
     parameters: Parameters
 
 class Tool(BaseModel):
-    type: Literal["function"]
+    type: Literal["function"] = "function"
     function: Function
 
 class FunctionCall(BaseModel):
@@ -48,7 +48,7 @@ async def call_llm(
     messages: List[Message],
     model: str = "gpt-3.5-turbo-0613",
     tool_choice: str = "auto",
-    tools: List[Tool] = None
+    tools: Optional[List[Tool]] = None
 ) -> LLMResponse:
     #TODO here I need to replace asdict with model_dump :D
     client = AsyncOpenAI()
