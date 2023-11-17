@@ -53,16 +53,3 @@ class GetStockClosePriceToCsv(Plugin):
             return Execution(
                 observation=f"Error on execution of {GetStockClosePriceToCsv.name}: {e}"
             )
-        
-
-        try:
-            response = requests.get(base_url, params=params)
-            data = response.json()
-            observation = FindTicker.getUSticker(data, company_name)
-            return Execution(
-                observation=Succes
-            )
-        except Exception as e:
-            return Execution(
-                observation=f"Error on execution of {FindTicker.name}: {e}"
-            )
