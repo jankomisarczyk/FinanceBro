@@ -3,7 +3,7 @@ from src.plugins.exit import Exit
 from src.plugins.find_ticker import FindTicker
 from src.plugins.get_stock_close_price_to_csv import GetStockClosePriceToCsv
 from src.plugins.get_stock_open_price_to_csv import GetStockOpenPriceToCsv
-
+from src.plugins.get_income_statement_to_csv import GetIncomeStatementToCsv
 
 PLANNING_PROMPT_TEMPLATE = """As the AI Financial Analyst, your role is to strategize and plan the execution of tasks efficiently and effectively. Avoid redundancy, such as unnecessary immediate verification of actions.
 
@@ -43,7 +43,7 @@ class FinancialAnalyst(Specialization):
         "find_ticker": FindTicker,
         "get_stock_close_price_to_csv": GetStockClosePriceToCsv,
         "get_stock_open_price_to_csv": GetStockOpenPriceToCsv,
-        "get_income_statement_to_csv"
+        "get_income_statement_to_csv": GetIncomeStatementToCsv,
         "get_balance_sheet_to_csv"
         "get_cash_flow_statement_to_csv"
         "get_valuation measures_to_csv"
