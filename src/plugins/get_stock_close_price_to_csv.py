@@ -1,6 +1,5 @@
 from datetime import datetime
 
-import requests
 import yfinance
 
 from src.interns.step import Execution
