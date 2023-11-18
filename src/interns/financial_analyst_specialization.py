@@ -6,6 +6,7 @@ from src.plugins.get_stock_open_price_to_csv import GetStockOpenPriceToCsv
 from src.plugins.get_income_statement_to_csv import GetIncomeStatementToCsv
 from src.plugins.get_balance_sheet_to_csv import GetBalanceSheetToCsv
 from src.plugins.get_cash_flow_statement_to_csv import GetCashFlowStatementToCsv
+from src.plugins.get_news_sentiment_to_txt import GetNewsSentimentToTxt
 
 PLANNING_PROMPT_TEMPLATE = """As the AI Financial Analyst, your role is to strategize and plan the execution of tasks efficiently and effectively. Avoid redundancy, such as unnecessary immediate verification of actions.
 
@@ -48,9 +49,9 @@ class FinancialAnalyst(Specialization):
         "get_income_statement_to_csv": GetIncomeStatementToCsv,
         "get_balance_sheet_to_csv": GetBalanceSheetToCsv,
         "get_cash_flow_statement_to_csv": GetCashFlowStatementToCsv,
-        "get_financial_news_to_txt"
+        "get_news_sentiment_to_txt": GetNewsSentimentToTxt,
         "get_reddit_news_to_txt"
-        "analyze_company_data"
+        "analyze_company"
         "exit": Exit
     }
     planning_prompt_template = PLANNING_PROMPT_TEMPLATE
