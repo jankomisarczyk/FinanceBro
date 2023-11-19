@@ -25,7 +25,7 @@ class WriteFile(Plugin):
         # Writing to file
         if not filename[-4:] == ".txt":
             filename += ".txt"
-        with open(filename, 'w') as f:
+        with open(filename, 'w', encoding='utf-8') as f:
             f.write(text_content)
         
         description = await WriteFile.summarize_content(text_content)

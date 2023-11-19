@@ -9,7 +9,7 @@ from src.plugins.plugin import Plugin
 PLUGIN_NAME = "find_ticker"
 PLUGIN_DESCRIPTION = "Returns stock ticker symbol given company name."
 ARGS_SCHEMA = {
-    "company_name": Argument(type="string", description="Name of the company for which to find the ticker.")
+    "company_name": Argument(type="string", description="Name of the company to find its ticker symbol.")
 }
     
 

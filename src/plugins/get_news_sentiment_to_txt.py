@@ -50,7 +50,7 @@ class GetNewsSentimentToTxt(Plugin):
                 if not filename[-4:] == ".txt":
                     filename += ".txt"
             # Writing to file
-            with open(filename, 'w') as f:
+            with open(filename, 'w', encoding='utf-8') as f:
                 f.write(CONTENT.format(first_line=first_line, combined_summaries=combined_summaries))
             
             return Execution(
@@ -68,7 +68,7 @@ class GetNewsSentimentToTxt(Plugin):
             count = 0
             summaries = []
             for news in data["feed"]:
-                summaries.append(f"- {news["summary"]}")
+                summaries.append(f"- {news['summary']}")
                 found = GetNewsSentimentToTxt.getTickerSentiment(news["ticker_sentiment"], ticker)
                 if found != 333.:
                     count += 1
