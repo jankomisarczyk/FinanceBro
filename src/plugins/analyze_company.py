@@ -1,13 +1,15 @@
-import yfinance
 import os
+from datetime import date
+
+import numpy_financial as npf
 import pandas as pd
 import xlwings as xw
+import yahoo_fin.stock_info as si
+import yfinance
+
 from src.interns.step import Execution
 from src.llmopenai import Argument
 from src.plugins.plugin import Plugin
-from datetime import date
-import yahoo_fin.stock_info as si
-import numpy_financial as npf
 
 PLUGIN_NAME = "analyze_company"
 PLUGIN_DESCRIPTION = "Analyzes the company given diffrent financial sources and formulate an investment thesis for it. Additionaly, it creates an Excel file with DCF, if `` and `` arguments are not None."
