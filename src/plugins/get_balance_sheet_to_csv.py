@@ -30,8 +30,7 @@ class GetBalanceSheetToCsv(Plugin):
                     filename += ".csv"
             
             stock =  yfinance.Ticker(ticker)
-            dataframe = stock.balance_sheet.transpose()
-            dataframe.index.name = "Date"
+            dataframe = stock.balance_sheet
             # TODO what columns do I really need for analysis 
             dataframe.to_csv(filename, encoding='utf-8')
             return Execution(

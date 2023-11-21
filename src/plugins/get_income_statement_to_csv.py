@@ -30,8 +30,7 @@ class GetIncomeStatementToCsv(Plugin):
                     filename += ".csv"
             
             stock =  yfinance.Ticker(ticker)
-            dataframe = stock.income_stmt.transpose()
-            dataframe.index.name = "Date"
+            dataframe = stock.income_stmt
             # TODO what columns do I really need for analysis columns=["EBITDA" ....]
             dataframe.to_csv(filename, encoding='utf-8')
             return Execution(

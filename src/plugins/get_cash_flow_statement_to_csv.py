@@ -30,8 +30,7 @@ class GetCashFlowStatementToCsv(Plugin):
                     filename += ".csv"
             
             stock =  yfinance.Ticker(ticker)
-            dataframe = stock.cash_flow.transpose()
-            dataframe.index.name = "Date"
+            dataframe = stock.cash_flow
             # TODO what columns do I really need for analysis 
             dataframe.to_csv(filename, encoding='utf-8')
             return Execution(

@@ -1,9 +1,9 @@
-# FinanceBro: improving Auto-GPT for Finance
+# FinanceBro: improving Beebot for Finance
 
 
 
 
-FinanceBro is a master thesis project that combines Auto-GPT functionalities with Gorilla project. It aims to showcase possibilities of LLMs that work with OS of your computer. 
+FinanceBro is a master thesis project that combines Beebot functionalities with Gorilla project. It aims to showcase possibilities of LLMs that work with OS of your computer. 
 
 
 
@@ -42,7 +42,7 @@ Now you can perform any task on your computer just by typing it to FinanceBro, w
 
 1. Check out the [Shell_AI](https://github.com/ricklamers/shell-ai)
 
-2. Check out the [AutoGPT](https://github.com/Significant-Gravitas/Auto-GPT)
+2. Check out the [Beebot](https://github.com/AutoPackAI/beebot)
 
 
 

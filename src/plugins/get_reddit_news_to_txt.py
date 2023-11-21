@@ -6,7 +6,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 from src.interns.step import Execution
-from src.llmopenai import Argument
+from src.llmopenai import Argument, Message, call_llm
 from src.plugins.plugin import Plugin
 
 PLUGIN_NAME = "get_reddit_news_to_txt"
@@ -16,6 +16,13 @@ ARGS_SCHEMA = {
     "ticker": Argument(type="string", description="Stock ticker symbol of the company"),
     "filename": Argument(type="string", description="Name of txt file to which the analysis will be written")
 }
+
+REDDIT_TEMP = """Analyze the following text and determine whether it includes any information related to {company_name} or the stock ticker {ticker}. If such information is present, please provide a brief summary and the overall sentiment of what it says about {company_name}/{ticker}. Otherwise, output 'The subreddit r/wallstreetbets hasn't talked about {company_name} recently.
+Text:
+```{text}```
+
+Answer:"""
+
 
 class GetRedditNewsToTxt(Plugin):
     name = PLUGIN_NAME
@@ -43,6 +50,7 @@ class GetRedditNewsToTxt(Plugin):
             for comment in submission.comments.list():
                 text_content += comment.body + "\n"
             text_content = GetRedditNewsToTxt.clean_content(text_content)
+            text_content = await GetRedditNewsToTxt.analyze_comments(text_content, company_name, ticker)
             # just safety measure, if passed filename=None or not txt
             if not filename:
                 filename = f"{ticker}_reddit_news.txt"
@@ -70,3 +78,10 @@ class GetRedditNewsToTxt(Plugin):
         file_contents = re.sub(r'https?://\S+', '', file_contents)
 
         return file_contents
+    
+    @staticmethod
+    async def analyze_comments(text: str, company_name: str, ticker: str) -> str:
+        # I am taking roughly 7.5k OpenAi tokens of comments
+        prompt = REDDIT_TEMP.format(text=text[:30000], company_name=company_name, ticker=ticker)
+        response = await call_llm(model="gpt-4", messages=[Message(role="user", content=prompt)])
+        return response.content
