@@ -39,7 +39,6 @@ NEWS_CHUNK = """
 ## We have analyzed 50 latest articles for their sentiment and here are the insights:
 {chunk}"""
 
-# https://python.plainenglish.io/how-to-calculate-intrinsic-value-of-a-stock-using-dcf-model-in-python-4e99bf771b3b
 
 class AnalyzeCompany(Plugin):
     name = PLUGIN_NAME
