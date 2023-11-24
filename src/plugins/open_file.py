@@ -21,9 +21,8 @@ class OpenFile(Plugin):
         try:
             command = 'start ' + filename
             subprocess.run(command, shell=True, check=True)
+            return Execution(observation=f"Successfully opened the file {filename}.")
         except subprocess.CalledProcessError as e:
             return Execution(
                 observation=f"Error on execution of {OpenFile.name}: {e}"
             )
-
-        return Execution(observation="Successfully opened the file.")
