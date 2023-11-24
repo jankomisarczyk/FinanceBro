@@ -6,6 +6,8 @@ from src.interns.intern import Intern
 from src.interns.specialization import Specialization
 from src.interns.file_manager_specialization import FileManager
 from src.interns.research_specialization import Research
+from src.interns.financial_analyst_specialization import FinancialAnalyst
+from src.interns.excel_specialization import Excel
 from src.config import Config
 from src.decomposer.decomposer import Decomposer
     
