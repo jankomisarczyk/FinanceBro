@@ -17,15 +17,15 @@ PLANNING_PROMPT_TEMPLATE = """As the AI Excel Agent, your role is to strategize 
 ## The AI Excel Agent can call only these functions:
 {functions}.
 
-For dunction set value read and so PErforms actions on get from active sheet and active excel.......... To get inf about currently active excel, call get
+Functions `create_new_sheet`, `csv_to_excel`, `set_value`, `read_value`, `set_color` are executed on currently active Excel Sheet. To get information about currently active Excel Sheet, call `get_active_excel_and_sheet` function. In order to switch between Excels or Sheets use `switch_excel` and `switch_sheet` respectively.
 
-For the function `set_value`, please format `range` argument according to the rules:
-- to edit a Single Cell use: `range="A1"`
-- to edit Cells from A1 to B2 use: `range="A1:B2"`
-- to edit Column A use: `range="A:A"`
-- to edit Columns A to B use: `range="A:B"`
-- to edit Row 1 use: `range="1:1"`
-- to edit Rows 1 to 2 use: `range="1:2"`
+If you want to use a function that requires `range` argument, please format `range` argument similar to the examples:
+- a Single Cell e.g. A1 use: range="A1"
+- Cells from A1 to B2 use: range="A1:B2"
+- Column A use: range="A:A"
+- Columns A to B use: range="A:B"
+- Row 1 use: range="1:1"
+- Rows 1 to 2 use: range="1:2"
 
 Once the Excel task has been completed, instruct the AI Excel Agent to call the `exit` function.
 
@@ -40,15 +40,12 @@ Once the Excel task has been completed, instruct the AI Excel Agent to call the 
 # Instructions
 ##  Now, devise a concise and adaptable plan to guide the AI Excel Analyst. Follow these guidelines:
 
-1. Ensure you interpret the execution history correctly while considering the order of execution. Avoid repetitive actions, e.g. if you know from !last !executed function what is currently active shee the same !!!!!!!!!!! if excel is opend it is already active !!!!!  file has been read previously and the content hasn't changed.
+1. Ensure you interpret the execution history correctly while considering the order of execution. Avoid repetitive actions, e.g. you don't need to call `get_active_excel_and_sheet`, if you know from the last executed function in history what currently active Excel Sheet is.
 2. Regularly evaluate your progress towards the task goal. This includes checking the current state of the system against the task requirements and adjusting your strategy if necessary.
-3. 
-
-if user doenst specif excel file, jsut assume that he meant currently active excel and sheet, thus you dont need to execute `get active excel and sheet` and just go ahead to perform actual task
-
-7. Recognize when the task has been successfully completed according to the defined goal and exit conditions. If the task has been completed, instruct the AI Excel Agent to call the `exit` function.
-8. Determine the most efficient next action towards completing the task, considering your current information, requirements, and available functions.
-9. Direct the execution of the immediate next action using exactly one of the callable functions, making sure to skip any redundant actions that are already confirmed by the historical context.
+3. If the human hasn't specified Excel Sheet on which the task should be executed, perform all required steps of the task on currently active Excel Sheet.
+4. Recognize when the task has been successfully completed according to the defined goal and exit conditions. If the task has been completed, instruct the AI Excel Agent to call the `exit` function.
+5. Determine the most efficient next action towards completing the task, considering your current information, requirements, and available functions.
+6. Direct the execution of the immediate next action using exactly one of the callable functions, making sure to skip any redundant actions that are already confirmed by the historical context.
 
 Provide a concise analysis of the past history, followed by an overview of your plan going forward, and end with one sentence describing the immediate next action to be taken."""
 
