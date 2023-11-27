@@ -37,7 +37,7 @@ Provide a concise analysis of the past history, followed by a step-by-step summa
 
 class Research(Specialization):
     NAME = "Research Agent"
-    DESCRIPTION = "Research Agent: Specializes at searching for sources of information and analyzing those sources"
+    DESCRIPTION = "Research Agent: Specializes at searching on the Internet for sources of information and analyzing those sources"
     PLUGINS = {
         "extract_information_from_webpage": ExtractInformationFromWebpage,
         "get_text_from_website": GetWebsiteText,
