@@ -1,5 +1,7 @@
 from src.interns.specialization import Specialization
 from src.plugins.exit import Exit
+from src.plugins.create_vector_store_from_pdfs import CreateVectorStoreFromPDFs
+from src.plugins.query_vector_store import QueryVectorStore
 
 
 PLANNING_PROMPT_TEMPLATE = """As the AI Vector Store Manager, your role is to strategize and plan the execution of tasks efficiently and effectively. Avoid redundancy, such as unnecessary immediate verification of actions.
@@ -35,8 +37,10 @@ class FileManager(Specialization):
     DESCRIPTION = "Vector Store Manager Agent: Specializes at managing files and folders. It can perform wide verity of operations on files, including opening (viewing or printing), writing to a file, renaming, copying, moving, deleting and searching for files."
     PLUGINS = {
         "create_vector_store_from_pdfs": CreateVectorStoreFromPDFs,
-        "create_vector_store_from_links": CreateVectorStoreFromLinks,
         "query_vector_store": QueryVectorStore,
         "exit": Exit
     }
     planning_prompt_template = PLANNING_PROMPT_TEMPLATE
+
+# TODO
+# "create_vector_store_from_links": CreateVectorStoreFromLinks,

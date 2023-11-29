@@ -1,11 +1,10 @@
+import requests
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-import requests
 
-from langchain.utilities.google_serper import GoogleSerperAPIWrapper
-from src.plugins.plugin import Plugin
-from src.llmopenai import Argument
 from src.interns.step import Execution
+from src.llmopenai import Argument
+from src.plugins.plugin import Plugin
 
 PLUGIN_NAME = "search_econ_literature"
 PLUGIN_DESCRIPTION = (

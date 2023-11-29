@@ -10,7 +10,7 @@ readme = "README.md"
 financebro = 'src.cli:main'
 
 [tool.poetry.dependencies]
-python = ">=3.11,<3.13"
+python = ">=3.11,<3.12"
 python-dotenv = "^1.0.0"
 pydantic-settings = "^2.0.3"
 coloredlogs = "^15.0.1"
@@ -27,6 +27,7 @@ yfinance = "^0.2.32"
 xlwings = "^0.30.12"
 yahoo-fin = "^0.8.9.1"
 numpy-financial = "^1.0.0"
+mip = "^1.15.0"
 
 
 [build-system]

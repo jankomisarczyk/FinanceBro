@@ -54,10 +54,6 @@ class CreateVectorStoreFromPDFs(Plugin):
                 observation=f"Successfully created vector store under name {vs_name}."
             )
         except Exception as e:
-            if str(e) == "Couldn't find any active App!":
-                return Execution(
-                    observation="No Excel is opened and thus also active."
-                )
             return Execution(
                 observation=f"Error on execution of {CreateVectorStoreFromPDFs.name}: {e}"
             )
