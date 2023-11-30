@@ -26,7 +26,8 @@ class CreateNewExcel(Plugin):
             wb = xw.Book()
             wb.save(rf"{excel_name}")
             return Execution(
-                observation=f"Successfully created the Excel {excel_name}. Currently, active Excel is {excel_name} and active Sheet is {wb.sheets.active.name}."
+                observation=f"Successfully created the Excel {excel_name}. Currently, active Excel is {excel_name} and active Sheet is {wb.sheets.active.name}.",
+                set_files={excel_name: "Excel"}
             )
         except Exception as e:
             return Execution(

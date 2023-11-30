@@ -1,16 +1,17 @@
+import json
 import logging
 import os.path
-from typing import Union, List, Dict
-from src.interns.step import Step
-from src.interns.intern import Intern
-from src.interns.specialization import Specialization
-from src.interns.file_manager_specialization import FileManager
-from src.interns.research_specialization import Research
-from src.interns.financial_analyst_specialization import FinancialAnalyst
-from src.interns.excel_specialization import Excel
+from typing import Dict, List, Union
+
 from src.config import Config
 from src.decomposer.decomposer import Decomposer
-    
+from src.interns.excel_specialization import Excel
+from src.interns.file_manager_specialization import FileManager
+from src.interns.financial_analyst_specialization import FinancialAnalyst
+from src.interns.intern import Intern
+from src.interns.research_specialization import Research
+from src.interns.specialization import Specialization
+from src.interns.step import Step
 
 logger = logging.getLogger(__name__)
 
@@ -47,6 +48,15 @@ class FinanceBro:
         if not os.path.exists(self.config.workspace_path):
             os.makedirs(self.config.workspace_path, exist_ok=True)
         os.chdir(self.config.workspace_path)
+
+        if os.path.exists('global_variables.json'):
+            with open('global_variables.json', 'r') as file:
+                self.global_variables = json.load(file)
+        
+        if os.path.exists('global_files.json'):
+            with open('global_files.json', 'r') as file:
+                self.global_files = json.load(file)
+        
 
     @property
     def current_intern(self) -> Union[Intern, None]:
@@ -109,3 +119,10 @@ class FinanceBro:
                 outputs=step["outputs"]
             )
             self.interns.append(intern)
+    
+    def save(self):
+        with open('global_variables.json', 'w') as file:
+            json.dump(self.global_variables, file)
+    
+        with open('global_files.json', 'w') as file:
+            json.dump(self.global_files, file)

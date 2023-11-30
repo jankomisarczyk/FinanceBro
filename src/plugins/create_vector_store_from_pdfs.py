@@ -51,7 +51,8 @@ class CreateVectorStoreFromPDFs(Plugin):
                 pickle.dump(vectorstore, f)
             
             return Execution(
-                observation=f"Successfully created vector store under name {vs_name}."
+                observation=f"Successfully created vector store under name {vs_name}. If you want to query it, you can write e.g. 'Query {vs_name}: <list of questions separated with commas>'.",
+                set_files={vs_name: "Vector Store"}
             )
         except Exception as e:
             return Execution(
