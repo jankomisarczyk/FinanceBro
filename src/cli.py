@@ -40,6 +40,8 @@ async def start():
         print("\n=== Cycle Output ===")
         print(step.model_dump(exclude_none=True))
 
+    financebro.save()
+
 def main():
     asyncio.run(start())
 
