@@ -1,3 +1,4 @@
+import os
 import pickle
 from typing import Dict, List
 
@@ -27,8 +28,8 @@ class QueryVectorStore(Plugin):
     @staticmethod
     async def arun(vector_store_name: str, questions_list: List[str]) -> Execution:
         try:
-            if vector_store_name[-4:] != ".pkl":
-                return Execution(observation="Vector store name doesn't end with .pkl")
+            if not os.path.exists(vector_store_name):
+                return Execution(observation="Vector store not found")
             
             question_to_contexts = QueryVectorStore.retrive_chunks(vector_store_name, questions_list)
 
