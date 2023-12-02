@@ -17,7 +17,7 @@ ARGS_SCHEMA = {
 }
     
 
-class GetWebsiteText(Plugin):
+class GetWebsiteContent(Plugin):
     name = PLUGIN_NAME
     description = PLUGIN_DESCRIPTION
     args_schema = ARGS_SCHEMA
@@ -30,13 +30,13 @@ class GetWebsiteText(Plugin):
             response = requests.get(url)
             soup = BeautifulSoup(response.text, "html.parser")
             stripped_text = re.sub(r"\s+", " ", soup.get_text().strip())
-            document = await GetWebsiteText.filter_long_documents(stripped_text)
+            document = await GetWebsiteContent.filter_long_documents(stripped_text)
             return Execution(
                 observation=document
             )
         except Exception as e:
             return Execution(
-                observation=f"Error on execution of {GetWebsiteText.name}: {e}"
+                observation=f"Error on execution of {GetWebsiteContent.name}: {e}"
             )
     
     @staticmethod

@@ -2,7 +2,7 @@ from src.interns.specialization import Specialization
 from src.plugins.exit import Exit
 from src.plugins.export_variable import ExportVariable
 from src.plugins.extract_information_from_webpage import ExtractInformationFromWebpage
-from src.plugins.get_text_from_website import GetWebsiteText
+from src.plugins.get_website_content import GetWebsiteContent
 from src.plugins.google_search import GoogleSearch
 
 
@@ -40,7 +40,7 @@ class Research(Specialization):
     DESCRIPTION = "Research Agent: Specializes at searching on the Internet for sources of information and analyzing those sources"
     PLUGINS = {
         "extract_information_from_webpage": ExtractInformationFromWebpage,
-        "get_text_from_website": GetWebsiteText,
+        "get_website_content": GetWebsiteContent,
         "google_search": GoogleSearch,
         "export_variable": ExportVariable,
         "exit": Exit

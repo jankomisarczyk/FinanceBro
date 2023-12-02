@@ -61,13 +61,14 @@ class Specialization:
         )
         
         logger.info("\n=== Decision Created ===")
-        logger.info(response.tool_calls.function)
+        logger.info(response.tool_calls[0].function)
 
         #TODO logic to re-try Deciding if response is NOT valid function
+        #TODO instead of taking first element maybe analyze if there is more or none ?
 
         return Decision(
-            tool_name=response.tool_calls.function.name,
-            tool_args=response.tool_calls.function.arguments
+            tool_name=response.tool_calls[0].function.name,
+            tool_args=response.tool_calls[0].function.arguments
         )
 
     async def execute(self, decision: Decision) -> Execution:
