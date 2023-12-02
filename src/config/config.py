@@ -25,7 +25,6 @@ class Config(BaseSettings):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.setup_logging()
-        openai.api_key = self.openai_api_key
 
     def setup_logging(self) -> logging.Logger:
         os.makedirs("logs", exist_ok=True)
@@ -45,7 +44,6 @@ class Config(BaseSettings):
                 file_handler,
             ],
         )
-        print("doing loggoinh")
         coloredlogs.install(
             level=self.log_level,
             fmt=LOG_FORMAT,

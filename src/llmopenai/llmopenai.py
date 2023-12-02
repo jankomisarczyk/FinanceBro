@@ -59,14 +59,14 @@ async def call_llm(
     tools: Optional[List[Tool]] = None
 ) -> LLMResponse:
     client = AsyncOpenAI()
-    messages_list = [mess.model_dump_json() for mess in messages]
+    messages_list = [mess.model_dump() for mess in messages]
     logger.debug(f"~~ LLM Request ~~\n{messages}")
 
     if tools:
         response = await client.chat.completions.create(
             model=model,
             messages=messages_list,
-            tools=[tool.model_dump_json(exclude_none=True) for tool in tools],
+            tools=[tool.model_dump(exclude_none=True) for tool in tools],
             tool_choice=tool_choice,
             top_p=0.1
         )

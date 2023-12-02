@@ -29,8 +29,7 @@ async def start():
         print("What would you like me to do?")
         print("> ", end="")
         task = input()
-    print(task)
-
+    
     config = Config()
     # mybe I will do DB connection for files
     financebro = FinanceBro(task=task, config=config)
