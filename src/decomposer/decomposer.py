@@ -50,7 +50,7 @@ class Decomposer:
 
     def starting_files(self) -> str:
         #TODO I need to re-factor this, so that each file already existing in workspace is in global files
-
+        # i need too add that os. go also for folders
         file_list = []
         for file in os.listdir():
             abs_path = os.path.abspath(os.path.join(file.replace("/", "_")))
