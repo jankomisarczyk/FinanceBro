@@ -32,9 +32,9 @@ Once the task has been completed, instruct the AI Vector Store Manager to call t
 
 Provide a concise analysis of the past history, followed by an overview of your plan going forward, and end with one sentence describing the immediate next action to be taken."""
 
-class FileManager(Specialization):
+class VectorStoreManager(Specialization):
     NAME = "Vector Store Manager Agent"
-    DESCRIPTION = "Vector Store Manager Agent: Specializes at managing files and folders. It can perform wide verity of operations on files, including opening (viewing or printing), writing to a file, renaming, copying, moving, deleting and searching for files."
+    DESCRIPTION = "Vector Store Manager Agent: Specializes at managing files and folders. It can perform wide verity of operations on files, including opening (viewing or printing), writing to a file, renaming, copying, moving, deleting and searching for files. NOT able to export a global variable."
     PLUGINS = {
         "create_vector_store_from_pdfs": CreateVectorStoreFromPDFs,
         "query_vector_store": QueryVectorStore,

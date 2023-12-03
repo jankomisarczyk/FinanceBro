@@ -33,7 +33,7 @@ Date format for `date_from` and `date_to` arguments is `YYYY-MM-DD`. Once the fi
 2. Regularly evaluate your progress towards the task goal. This includes checking the current state of the system against the task requirements and adjusting your strategy if necessary.
 3. If not specified in Task what stock prices to take, use close price.
 4. If not specified in Task what data period to take into account, call `get_*` functions with a time window for the last 2 years. Current date is {current_date}.
-5. If the task goal is to analyze a company and without specified data, instruct the AI Financial Analyst to call at least `get_income_statement_to_csv`, `get_balance_sheet_to_csv` and `get_cash_flow_statement_to_csv`.
+5. If the task goal is to analyze a company and without specified data, instruct the AI Financial Analyst to call at least `get_income_statement_to_csv`, `get_balance_sheet_to_csv` and `get_cash_flow_statement_to_csv` before `analyze_company`.
 6. If an error occurs (like 'Could not analyze company data'), take a step back and analyze if it's an indicator of the next required action (like getting financial data first). Avoid getting stuck in loops by not repeating the action that caused the error without modifying the approach.
 7. Recognize when the task has been successfully completed according to the defined goal and exit conditions. If the task has been completed, instruct the AI Financial Analyst to call the `exit` function.
 8. Determine the most efficient next action towards completing the task, considering your current information, requirements, and available functions.
@@ -43,7 +43,7 @@ Provide a concise analysis of the past history, followed by an overview of your 
 
 class FinancialAnalyst(Specialization):
     NAME = "Financial Analyst Agent"
-    DESCRIPTION = "Financial Analyst Agent: Specializes at getting and analyzing stock data, financial news, income statements, balance sheets, valuation measures and cash flow statements of companies."
+    DESCRIPTION = "Financial Analyst Agent: Specializes at searching for financial data and analyzing the financials of companies. DO NOT use File Manager Agent for writing content, it is already done."
     PLUGINS = {
         "find_ticker": FindTicker,
         "get_stock_close_price_to_csv": GetStockClosePriceToCsv,

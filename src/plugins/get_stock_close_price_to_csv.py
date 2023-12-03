@@ -43,7 +43,6 @@ class GetStockClosePriceToCsv(Plugin):
             
             stock =  yfinance.Ticker(ticker)
             dataframe = stock.history(period="1d", start=date_from, end=date_to)
-            dataframe.index = dataframe.index.strftime("%Y-%m-%d")
             dataframe.to_csv(filename, encoding='utf-8', columns=["Close"])
             return Execution(
                 observation=f"Stock Close data was successfully written to {filename}."

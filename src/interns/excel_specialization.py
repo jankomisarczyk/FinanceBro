@@ -51,7 +51,7 @@ Provide a concise analysis of the past history, followed by an overview of your 
 
 class Excel(Specialization):
     NAME = "Excel Agent"
-    DESCRIPTION = "Excel Agent: Specializes at opening and modifying .xlsx files. It allows to interact with Excel."
+    DESCRIPTION = "Excel Agent: Specializes at opening and modifying .xlsx files. It allows to interact with Excel. NOT able to export a global variable."
     PLUGINS = {
         "open_excel": OpenExcel,
         "create_new_excel": CreateNewExcel,

@@ -31,7 +31,7 @@ Provide a concise analysis of the past history, followed by an overview of your 
 
 class EconomicAnalyst(Specialization):
     NAME = "Economic Analyst Agent"
-    DESCRIPTION = "Economic Analyst Agent: Specializes at searching relevant economic literature and saves them as .pdf files."
+    DESCRIPTION = "Economic Analyst Agent: Specializes at searching relevant economic literature and saves them as .pdf files. NOT able to export a global variable."
     PLUGINS = {
         "search_econ_literature": SearchEconLiterature,
         "exit": Exit

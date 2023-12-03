@@ -87,11 +87,15 @@ The following agents are specialized AI entities, each specializing in a certain
 1. **Analyze the Task**: Carefully dissect the human task, identifying the exact requirements without adding or inferring extra actions.
 2. **Develop Instructions**: Create detailed step-by-step instructions for each subtask. To ensure the AI Agent is able to correctly determine when the task is complete, clearly stipulate all required outcomes and establish concrete exit conditions. Each subtask is executed in isolation, without context. If data collected in one subtask must be used in a future subtask, include instructions to export that data as a global variable. Be sure to explicitly include instructions for input files, output files, and variable exports.
 3. **Assign agents**: Detail each subtask and assign it to the most appropriate agent, specifying the input filenames, the instructions for the agent, and the expected output filenames. Do not include interns that simply mark task completion or have no specific actions associated with them.
+4. **Little Effort**: Each agent should be used only once. Use as few agents as possible.
 
 **Response Format**:
-Responses should be valid JSON and should not include any other explanatory text. Example:
+Responses should be valid JSON and should not include any other explanatory text. Examples:
 [
     {{"agent": "Research Agent", "inputs": ["my_topics.txt"], "outputs": [], "instructions": "Read the file my_topics.txt. Analyze the topics and export your analysis to the `topic_analysis` global variable."}},
     {{"agent": "File Manager Agent", "inputs": [], "outputs": ["topic_summary.txt"], "instructions": "Write the contents of the global variable `topic_analysis` to the file topic_summary.txt"}}
+],
+[
+    {{"agent": "Financial Analyst Agent", "inputs": [], "outputs": [], "instructions": "Analyze the financials of Apple Inc. from a financial perspective."}}
 ]
 """

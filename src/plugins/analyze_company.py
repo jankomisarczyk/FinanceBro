@@ -104,6 +104,7 @@ class AnalyzeCompany(Plugin):
                 wacc["L6"].value = total_debt
                 wacc["M6"].value = market_cap
                 wacc["N6"].value = total
+                wacc["D:D"].columns.autofit()
 
                 WACC_RATE = wacc["D21"].value
                 growth_est_df = si.get_analysts_info(ticker)['Growth Estimates']
@@ -146,14 +147,16 @@ class AnalyzeCompany(Plugin):
                 recommendation = "BUY" if intrinsic_value > current_value else "SELL"
                 dcf["D18"].value = recommendation
                 dcf["D19"].value = date.today()
-                file = f"{ticker}_WACC_DCF.xlsx"
-                template.save(file)
+                dcf["D:D"].columns.autofit()
+                dcf["H:M"].columns.autofit()
+                file_excel = f"{ticker}_WACC_DCF.xlsx"
+                template.save(file_excel)
                 # I don't want to close it - because I want to leave it to the user
                 all_insights += DCF_CHUNK.format(ticker=ticker, 
                                                  intrinsic_value=intrinsic_value, 
                                                  current_value=current_value, 
                                                  recommendation=recommendation,
-                                                 file=file)
+                                                 file=file_excel)
 
             if reddit_news_filename:
                 with open(reddit_news_filename, 'r') as f:
@@ -171,7 +174,7 @@ class AnalyzeCompany(Plugin):
             )
         except Exception as e:
             return Execution(
-                observation=f"Error on execution of {AnalyzeCompany.name}: {e}"
+                observation=f"Could not analyze company data. Error on execution of {AnalyzeCompany.name}: {e}"
             )
     
     @staticmethod

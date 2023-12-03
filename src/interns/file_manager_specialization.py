@@ -39,7 +39,7 @@ Provide a concise analysis of the past history, followed by an overview of your 
 
 class FileManager(Specialization):
     NAME = "File Manager Agent"
-    DESCRIPTION = "File Manager Agent: Specializes at managing files and folders. It can perform wide verity of operations on files, including opening (viewing or printing), writing to a file, renaming, copying, moving, deleting and searching for files."
+    DESCRIPTION = "File Manager Agent: Specializes at managing files and folders. It can perform wide verity of operations on files, including opening (viewing or printing), writing to a file, renaming, copying, moving, deleting and searching for files. Is able to export a global variable."
     PLUGINS = {
         "read_file": ReadFile,
         "open_file": OpenFile,

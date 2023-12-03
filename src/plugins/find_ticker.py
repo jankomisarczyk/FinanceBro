@@ -26,7 +26,7 @@ class FindTicker(Plugin):
         function = "SYMBOL_SEARCH"
         params = {
         "function": function,
-        "keywords": company_name,
+        "keywords": company_name.replace(".", ""),
         "apikey": os.getenv("ALPHAVANTAGE_API_KEY")
         }
 
@@ -49,6 +49,6 @@ class FindTicker(Plugin):
                 if match["4. region"] == "United States":
                     return match["1. symbol"]
             # if No US ticker found, return best match
-            return data["bestMatches"][0]["1. symbol"]
+            return f"No US ticker found for {company_name}. Please use your own best knowledge."
         else:
-            return f"No ticker found for {company_name}."
+            return f"No US ticker found for {company_name}. Please use your own best knowledge."

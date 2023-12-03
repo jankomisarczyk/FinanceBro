@@ -8,6 +8,8 @@ from src.decomposer.decomposer import Decomposer
 from src.interns.excel_specialization import Excel
 from src.interns.file_manager_specialization import FileManager
 from src.interns.financial_analyst_specialization import FinancialAnalyst
+from src.interns.economic_analyst_specialization import EconomicAnalyst
+from src.interns.vector_store_manager_specialization import VectorStoreManager
 from src.interns.intern import Intern
 from src.interns.research_specialization import Research
 from src.interns.specialization import Specialization
