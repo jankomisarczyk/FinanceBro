@@ -1,7 +1,7 @@
 import os
-import pickle
 from typing import Dict, List
 
+from langchain.embeddings import OpenAIEmbeddings
 from langchain.schema.document import Document
 from langchain.vectorstores.faiss import FAISS
 from mip import *
@@ -41,7 +41,7 @@ class QueryVectorStore(Plugin):
                 context = QueryVectorStore.create_context([doc.page_content for doc in contexts])
                 prompt = QUESTION_TEMPLATE.format(context=context, question=question)
                 response = await call_llm(messages=[Message(role="user", content=prompt)])
-                output += ANSWER_TEMPLATE.format(question=question, answer=response)
+                output += ANSWER_TEMPLATE.format(question=question, answer=response.content)
             
             return Execution(
                 observation=output
@@ -62,8 +62,8 @@ class QueryVectorStore(Plugin):
 
     @staticmethod
     def retrive_chunks(vector_store_name: str, questions: List[str]) -> Dict[str, List[Document]]:
-        with open(vector_store_name, 'rb') as f:
-            vectorstore: FAISS = pickle.load(f)
+        embeddings = OpenAIEmbeddings()
+        vectorstore = FAISS.load_local(vector_store_name, embeddings)
         ss_result = {}
         retrieved_k = 20
         for qi in questions:

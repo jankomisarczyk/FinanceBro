@@ -84,6 +84,7 @@ class FinanceBro:
         intern = self.current_intern
         # each intern plans, rapairs, decide and execute a step
         step = await intern.do_step()
+        # here add step.history and step.execution.complete => summarize all history?
         
         if step.execution.set_files:
             for key in step.execution.set_files:
@@ -108,6 +109,7 @@ class FinanceBro:
         decomposed = await self.decomposer.decompose()
         for step in decomposed:
             # WHAT other arguments need intern ?? TODO
+            # I want that e.g. first intern can pass what it has done to the second and to the third ....
             specialization = self.specialisation_registry[step["agent"]](
                 llm_planner=self.config.planner_model,
                 llm_decider=self.config.decider_model
@@ -117,8 +119,8 @@ class FinanceBro:
                 financebro=self,
                 specialization=specialization,
                 instructions=step["instructions"],
-                inputs=step["inputs"],
-                outputs=step["outputs"]
+                # inputs=step["inputs"],
+                # outputs=step["outputs"]
             )
             self.interns.append(intern)
     

@@ -41,7 +41,7 @@ class SearchEconLiterature(Plugin):
             
             return Execution(
                 observation=f"Successfully found a relevant document and saved it under name: {pdf_name}.",
-                set_files={pdf_name: f"Economic document about {query}."}
+                set_files={pdf_name: f"Economic document about {query}. Saved by the Economic Analyst Agent"}
             )
         except Exception as e:
             return Execution(

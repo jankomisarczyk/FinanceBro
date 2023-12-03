@@ -1,4 +1,3 @@
-import pickle
 from typing import List
 
 from langchain.document_loaders import PyPDFLoader
@@ -43,12 +42,11 @@ class CreateVectorStoreFromPDFs(Plugin):
 
             for id, chunk in enumerate(chunks):
                 chunk.metadata["UID"] = id
-            embeddings = OpenAIEmbeddings
+            embeddings = OpenAIEmbeddings()
             vectorstore = FAISS.from_documents(chunks, embeddings)
             # first ten char of first pdf name
-            vs_name = f"vector_store_{pdfs_list[0][:10]}.pkl"
-            with open(vs_name, 'wb') as f:
-                pickle.dump(vectorstore, f)
+            vs_name = f"vector_store_{pdfs_list[0][:10]}"
+            vectorstore.save_local(vs_name)
             
             # ADD observtion for user in frontend so that ==>> If you want to query it, you can write e.g. 'Query {vs_name}: <list of questions separated with commas>'.
             return Execution(
