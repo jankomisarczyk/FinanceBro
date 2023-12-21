@@ -15,6 +15,11 @@ const botErrorMessageTemplate = (text) => `<span
     ${text}
   </span><br>`;
 
+var eventSource = new EventSource("/stream");
+eventSource.onmessage = function(e) {
+  chatOutput.innerHTML += botSuccessMessageTemplate(e.data);
+};
+
 chatForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const message = chatInput.value.trim();
@@ -23,13 +28,21 @@ chatForm.addEventListener("submit", async (e) => {
     chatOutput.innerHTML += `<p class="user-message">${message}</p>`;
     chatInput.value = "";
     chatOutput.scrollTop = chatOutput.scrollHeight;
-    for (var i = 0; i < 30; i++) {
-        chatOutput.innerHTML += botSuccessMessageTemplate("Jasiek jest" + i);
-        if (i%2 == 0) {
-            chatOutput.innerHTML += botErrorMessageTemplate("jhasfjssa vdfa fdsjf sdfkhs fskfjhshh  ajsdkasj SJADKDJKD JDSKADJA SDkKKKKKKKKKKKK error" + i);
-        }
-        chatOutput.scrollTop = chatOutput.scrollHeight;
-    }
+
+    fetch('/process-request', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ data: message }),
+    })
+    // for (var i = 0; i < 30; i++) {
+    //     chatOutput.innerHTML += botSuccessMessageTemplate("Jasiek jest" + i);
+    //     if (i%2 == 0) {
+    //         chatOutput.innerHTML += botErrorMessageTemplate("jhasfjssa vdfa fdsjf sdfkhs fskfjhshh  ajsdkasj SJADKDJKD JDSKADJA SDkKKKKKKKKKKKK error" + i);
+    //     }
+    //     chatOutput.scrollTop = chatOutput.scrollHeight;
+    // }
     // const response = await fetch("gptchat.php", {
     //     method: "POST",
     //     headers: {
