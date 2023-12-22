@@ -15,11 +15,6 @@ const botErrorMessageTemplate = (text) => `<span
     ${text}
   </span><br>`;
 
-var eventSource = new EventSource("/stream");
-eventSource.onmessage = function(e) {
-  chatOutput.innerHTML += botSuccessMessageTemplate(e.data);
-};
-
 chatForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const message = chatInput.value.trim();
@@ -36,6 +31,11 @@ chatForm.addEventListener("submit", async (e) => {
       },
       body: JSON.stringify({ data: message }),
     })
+    var eventSource = new EventSource("/stream");
+    eventSource.onmessage = function(e) {
+      //implement if e.data == END close EventSource
+      chatOutput.innerHTML += botSuccessMessageTemplate(e.data);
+    };
     // for (var i = 0; i < 30; i++) {
     //     chatOutput.innerHTML += botSuccessMessageTemplate("Jasiek jest" + i);
     //     if (i%2 == 0) {

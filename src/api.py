@@ -1,47 +1,56 @@
-from flask import Flask, render_template, request, Response, jsonify, current_app
-import time
+import asyncio
 import os
-import json
+
+from dotenv import load_dotenv
+from flask import (Flask, Response, jsonify, render_template, request, session,
+                   stream_with_context)
+
+from src.config import Config
+from src.financebro.financebro import FinanceBro
 
 app = Flask(__name__, template_folder='frontend/templates', static_folder='frontend/static')
-with app.app_context():
-    current_app.currently = None
+
+def iter_over_async(ait, loop):
+    ait = ait.__aiter__()
+    async def get_next():
+        try: obj = await ait.__anext__(); return False, obj
+        except StopAsyncIteration: return True, None
+    while True:
+        done, obj = loop.run_until_complete(get_next())
+        if done: break
+        yield obj
 
 @app.route('/')
 def index():
-    print(os.getcwd())
     return render_template('index.html')
 
 @app.route("/stream")
 def stream():
-    def eventStream():
+    async def eventStream():
+        load_dotenv()
+        config = Config()
         while True:
-            # Poll data from the database
-            # and see if there's a new message
-            with app.app_context():
-                if current_app.currently:
-                    for i in range(3):
-                        time.sleep(i)
-                        yield "data: {}\n\n".format(str(i) + current_app.currently)
-                    current_app.currently = None
+            current_task = session.pop('task', None)
+            if current_task:
+                # do finance bro
+                financebro = FinanceBro(task=current_task, config=config)
+                await financebro.setup()
+                while step := await financebro.cycle():
+                    print("\n=== Sending Server Side Event ===")
+                    yield "data: {}\n\n".format(step.decision.tool_name)
+                financebro.save()
     
-    return Response(eventStream(), mimetype="text/event-stream")
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    iter = iter_over_async(eventStream(), loop)
+    return Response(stream_with_context(iter), mimetype="text/event-stream")
 
 @app.route('/process-request', methods=['POST'])
 def process_request():
     data = request.json.get('data')
-    process_request_task(data)
-    with app.app_context():
-        current_app.currently = data
-    
-    return jsonify({'message': 'Data received', 'item': 1}), 201
-        
-
-# Function to simulate a long-running task
-def process_request_task(data):
-    # Simulate long-running task
-    print(f"Processing request with data: {data}")
-    time.sleep(1)  # Simulate some processing time
+    session['task'] = data
+    return jsonify({'message': 'Task received'}), 201
 
 if __name__ == '__main__':
+    app.secret_key = 'some_secret_key'
     app.run(debug=True)

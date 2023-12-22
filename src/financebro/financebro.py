@@ -49,7 +49,9 @@ class FinanceBro:
 
         if not os.path.exists(self.config.workspace_path):
             os.makedirs(self.config.workspace_path, exist_ok=True)
-        os.chdir(self.config.workspace_path)
+
+        if os.path.basename(os.getcwd()) != self.config.workspace_path:
+            os.chdir(self.config.workspace_path)
 
         if os.path.exists('global_variables.json'):
             with open('global_variables.json', 'r') as file:
