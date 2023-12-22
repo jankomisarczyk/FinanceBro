@@ -39,6 +39,7 @@ def stream():
                     print("\n=== Sending Server Side Event ===")
                     yield "data: {}\n\n".format(step.decision.tool_name)
                 financebro.save()
+                yield "data: {}\n\n".format("TASK_DONE")
     
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)

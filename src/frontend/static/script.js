@@ -33,8 +33,11 @@ chatForm.addEventListener("submit", async (e) => {
     })
     var eventSource = new EventSource("/stream");
     eventSource.onmessage = function(e) {
-      //implement if e.data == END close EventSource
-      chatOutput.innerHTML += botSuccessMessageTemplate(e.data);
+      if (e.data === "TASK_DONE") {
+        eventSource.close()
+      } else {
+        chatOutput.innerHTML += botSuccessMessageTemplate(e.data);
+      }
     };
     // for (var i = 0; i < 30; i++) {
     //     chatOutput.innerHTML += botSuccessMessageTemplate("Jasiek jest" + i);
