@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,34 +9,101 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="static/script.js" defer></script>
 </head>
-<body>
-<div class="chat-container">
-  <div id="chat-output" class="chat-output"></div>
-  <form id="chat-form" class="chat-input-form">
-    <input type="text" id="chat-input" class="chat-input" placeholder="Type your task here" autocomplete="off">
-    <button
-            type="submit"
-            class="mr-1 inline-flex items-center gap-x-2 rounded-lg bg-blue-600 px-4 py-2.5 text-center text-sm font-medium text-slate-50 hover:bg-blue-800 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 sm:text-base"
-    >
-      Execute
-      <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-4 w-4"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-      >
-        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-        <path d="M10 14l11 -11"></path>
-        <path
-                d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5"
-        ></path>
-      </svg>
-    </button>
-  </form>
-</div>
+
+<body class="bg-slate-900 antialiased">
+
+  <div class="chat-container">
+
+    <svg
+      class="absolute inset-0 -z-10 h-full w-full stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
+      aria-hidden="true" viewBox="0 0 1422 800">
+      <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="oooscillate-grad">
+          <stop stop-color="hsl(230, 55%, 50%)" stop-opacity="1" offset="0%"></stop>
+          <stop stop-color="hsl(230, 55%, 70%)" stop-opacity="1" offset="100%"></stop>
+        </linearGradient>
+      </defs>
+      <g stroke-width="2" stroke="url(#oooscillate-grad)" fill="none" stroke-linecap="round">
+        <path d="M 0 572 Q 355.5 150 711 400 Q 1066.5 650 1422 572" opacity="0.05"></path>
+        <path d="M 0 550 Q 355.5 150 711 400 Q 1066.5 650 1422 550" opacity="0.09"></path>
+        <path d="M 0 528 Q 355.5 150 711 400 Q 1066.5 650 1422 528" opacity="0.13"></path>
+        <path d="M 0 506 Q 355.5 150 711 400 Q 1066.5 650 1422 506" opacity="0.16"></path>
+        <path d="M 0 484 Q 355.5 150 711 400 Q 1066.5 650 1422 484" opacity="0.20"></path>
+        <path d="M 0 462 Q 355.5 150 711 400 Q 1066.5 650 1422 462" opacity="0.24"></path>
+        <path d="M 0 440 Q 355.5 150 711 400 Q 1066.5 650 1422 440" opacity="0.28"></path>
+        <path d="M 0 418 Q 355.5 150 711 400 Q 1066.5 650 1422 418" opacity="0.32"></path>
+        <path d="M 0 396 Q 355.5 150 711 400 Q 1066.5 650 1422 396" opacity="0.35"></path>
+        <path d="M 0 374 Q 355.5 150 711 400 Q 1066.5 650 1422 374" opacity="0.39"></path>
+        <path d="M 0 352 Q 355.5 150 711 400 Q 1066.5 650 1422 352" opacity="0.43"></path>
+        <path d="M 0 330 Q 355.5 150 711 400 Q 1066.5 650 1422 330" opacity="0.47"></path>
+        <path d="M 0 308 Q 355.5 150 711 400 Q 1066.5 650 1422 308" opacity="0.51"></path>
+        <path d="M 0 286 Q 355.5 150 711 400 Q 1066.5 650 1422 286" opacity="0.54"></path>
+        <path d="M 0 264 Q 355.5 150 711 400 Q 1066.5 650 1422 264" opacity="0.58"></path>
+        <path d="M 0 242 Q 355.5 150 711 400 Q 1066.5 650 1422 242" opacity="0.62"></path>
+        <path d="M 0 220 Q 355.5 150 711 400 Q 1066.5 650 1422 220" opacity="0.66"></path>
+        <path d="M 0 198 Q 355.5 150 711 400 Q 1066.5 650 1422 198" opacity="0.70"></path>
+        <path d="M 0 176 Q 355.5 150 711 400 Q 1066.5 650 1422 176" opacity="0.73"></path>
+        <path d="M 0 154 Q 355.5 150 711 400 Q 1066.5 650 1422 154" opacity="0.77"></path>
+        <path d="M 0 132 Q 355.5 150 711 400 Q 1066.5 650 1422 132" opacity="0.81"></path>
+        <path d="M 0 110 Q 355.5 150 711 400 Q 1066.5 650 1422 110" opacity="0.85"></path>
+        <path d="M 0 88 Q 355.5 150 711 400 Q 1066.5 650 1422 88" opacity="0.89"></path>
+        <path d="M 0 66 Q 355.5 150 711 400 Q 1066.5 650 1422 66" opacity="0.92"></path>
+        <path d="M 0 44 Q 355.5 150 711 400 Q 1066.5 650 1422 44" opacity="0.96"></path>
+      </g>
+    </svg>
+    <div class="flex items-center justify-between">
+      <div class="flex">
+        <div class="relative inline-flex">
+          <span class="absolute bottom-0 right-2 -mr-1 -mt-1 flex h-4 w-4">
+            <span
+              class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75">
+            </span>
+            <span
+              class="relative inline-flex h-4 w-4 rounded-full bg-green-500">
+            </span>
+          </span>
+          <img
+            src="https://source.unsplash.com/brown-and-white-round-wall-decor-NxPWpVkkdjg" alt="user"
+            class="h-16 w-16 rounded-full bg-slate-700 dark:border-slate-700">
+        </div>
+        <div class="ml-4 flex flex-col gap-y-2">
+          <h3 class="text-base font-bold text-slate-700 dark:text-slate-400">Finance Bro</h3><span
+            class="text-sm text-slate-300">AI Agent who is happy to do your work</span>
+        </div>
+      </div><span
+        class="rounded-full bg-green-600/10 px-2.5 py-1 text-sm font-semibold leading-5 text-green-600">Active</span>
+    </div>
+    <!-- <div id="chat-output" class="chat-output"></div>
+    <form id="chat-form" class="chat-input-form">
+      <input type="text" id="chat-input" class="block w-full resize-none rounded-xl border-none bg-slate-200 p-4 pr-16 text-sm text-slate-900 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-800 dark:text-slate-200 dark:placeholder-slate-400 dark:focus:ring-blue-500 sm:text-base" placeholder="Type your task here" autocomplete="off">
+      <button type="submit"
+        class="mr-1 inline-flex items-center gap-x-2 rounded-lg bg-blue-600 px-4 py-2.5 text-center text-sm font-medium text-slate-50 hover:bg-blue-800 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 sm:text-base">
+        Execute
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" stroke-width="2"
+          stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+          <path d="M10 14l11 -11"></path>
+          <path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5"></path>
+        </svg>
+      </button>
+    </form> -->
+
+    <!-- nowe -->
+    <div id="chat-output" class="chat-output"></div>
+    <form id="chat-form">
+      <label for="chat-input" class="sr-only">Enter your prompt</label>
+      <div class="relative">
+        <input type="text" id="chat-input"
+          class="block w-full resize-none rounded-xl border-none bg-slate-200 p-4 pl-10 pr-20 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-slate-800 dark:text-slate-200 dark:placeholder-slate-400 dark:focus:ring-blue-600 sm:text-base"
+          placeholder="Enter your task" autocomplete="off"></input>
+        <button type="submit"
+          class="absolute bottom-2 right-2.5 rounded-lg bg-blue-700 px-4 py-2 text-sm font-medium text-slate-200 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 sm:text-base">
+          Execute <span class="sr-only">Execute task</span>
+        </button>
+      </div>
+    </form>
+
+  </div>
 </body>
+
 </html>

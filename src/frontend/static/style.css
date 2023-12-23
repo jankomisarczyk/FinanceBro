@@ -1,15 +1,17 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+}
+
+.bot-zdjecie {
+    clip-path: circle(40%);
 }
 
 .chat-container {
     width: 100%;
     max-width: 600px;
+    min-height: 370px;
     margin: 40px auto;
-    background-color: #fff;
     border-radius: 5px;
-    box-shadow: 0 3px 10px rgba(0,0, 0, 0.1);
     display: flex;
     flex-direction: column;
 }
@@ -29,6 +31,7 @@ body {
 .user-message {
     text-align: right;
     font-weight: bold;
+    color: #fff;
 }
 
 .bot-message {
@@ -40,8 +43,6 @@ body {
     display: flex;
     align-items: center;
     padding: 10px;
-    background-color: #f0f0f0;
-    border-top: 1px solid #e0e0e0;
 }
 
 .chat-input {

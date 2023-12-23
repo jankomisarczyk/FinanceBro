@@ -1,5 +1,5 @@
 import asyncio
-import os
+import time
 
 from dotenv import load_dotenv
 from flask import (Flask, Response, jsonify, render_template, request, session,
@@ -33,18 +33,25 @@ def stream():
             current_task = session.pop('task', None)
             if current_task:
                 # do finance bro
-                financebro = FinanceBro(task=current_task, config=config)
-                await financebro.setup()
-                while step := await financebro.cycle():
-                    print("\n=== Sending Server Side Event ===")
-                    yield "data: {}\n\n".format(step.decision.tool_name)
-                financebro.save()
-                yield "data: {}\n\n".format("TASK_DONE")
+                # financebro = FinanceBro(task=current_task, config=config)
+                # await financebro.setup()
+                # while step := await financebro.cycle():
+                #     print("\n=== Sending Server Side Event ===")
+                #     yield "data: {}\n\n".format(step.decision.tool_name)
+                # financebro.save()
+                # yield "data: {}\n\n".format('TASK_DONE')
+                time.sleep(1)
+                yield "event: func\ndata: to powinno zielone\n\n"
+                time.sleep(1)
+                yield "event: bot\ndata: to powinno amber\n\n"
+                time.sleep(1)
+                yield "event: close\n\n"
+                
     
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     iter = iter_over_async(eventStream(), loop)
-    return Response(stream_with_context(iter), mimetype="text/event-stream")
+    return Response(stream_with_context(iter), mimetype='text/event-stream')
 
 @app.route('/process-request', methods=['POST'])
 def process_request():
