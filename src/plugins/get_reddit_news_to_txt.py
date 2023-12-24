@@ -61,7 +61,8 @@ class GetRedditNewsToTxt(Plugin):
             with open(filename, 'w', encoding='utf-8') as f:
                 f.write(text_content)
             return Execution(
-                observation=f"Reddit News Analysis for {company_name} was successfully written to {filename}."
+                observation=f"Reddit News Analysis for {company_name} was successfully written to {filename}.",
+                info=f"Analysis of Reddit r/wallstreetbets saved in {filename}"   
             )
         except Exception as e:
             return Execution(

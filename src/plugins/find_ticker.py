@@ -35,7 +35,8 @@ class FindTicker(Plugin):
             data = response.json()
             observation = FindTicker.getUSticker(data, company_name)
             return Execution(
-                observation=observation
+                observation=observation,
+                info=f'Ticker for {company_name} is "{observation}"'
             )
         except Exception as e:
             return Execution(

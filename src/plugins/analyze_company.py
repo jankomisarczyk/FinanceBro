@@ -170,7 +170,8 @@ class AnalyzeCompany(Plugin):
             with open(filename, 'w', encoding='utf-8') as f:
                 f.write(all_insights)
             return Execution(
-                observation=f"Successfully analyzed the company. The insights were written to {filename}."
+                observation=f"Successfully analyzed the company. The insights were written to {filename} and the DCF model was saved to {file_excel}",
+                info=f"All insights saved in {filename}<br>DCF saved in {file_excel}"
             )
         except Exception as e:
             return Execution(

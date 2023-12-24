@@ -10,8 +10,8 @@ ${text}
 </span><br>`;
 
 const botTemplate = (text) => `<span
-class="inline-flex mt-1.5 items-center gap-x-2 rounded-full bg-amber-600/20 px-2.5 py-1 text-sm font-semibold leading-5 text-amber-600">
-<span class="inline-block h-2 w-2 rounded-full bg-amber-600"></span>
+class="inline-flex mt-1.5 items-center gap-x-2 rounded-full bg-purple-600/20 px-2.5 py-1 text-sm font-semibold leading-5 text-purple-400">
+<span class="inline-block h-2 w-2 rounded-full bg-purple-400"></span>
 ${text}
 </span><br>`;
 
@@ -31,17 +31,22 @@ chatForm.addEventListener("submit", async (e) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ data: message }),
+  }).then(res => {
+    console.log(res)
+    var eventSource = new EventSource("/stream");
+    eventSource.addEventListener('func', (event) => {
+      chatOutput.innerHTML += funcTemplate(event.data);
+      chatOutput.scrollTop = chatOutput.scrollHeight;
+    });
+    eventSource.addEventListener('bot', (event) => {
+      chatOutput.innerHTML += botTemplate(event.data);
+      chatOutput.scrollTop = chatOutput.scrollHeight;
+    });
+    eventSource.addEventListener('close', (event) => {
+      eventSource.close();
+    });
   })
-  var eventSource = new EventSource("/stream");
-  eventSource.addEventListener('func', (event) => {
-    chatOutput.innerHTML += funcTemplate(event.data);
-  });
-  eventSource.addEventListener('bot', (event) => {
-    chatOutput.innerHTML += botTemplate(event.data);
-  });
-  eventSource.addEventListener('close', (event) => {
-    eventSource.close();
-  });
+
   // for (var i = 0; i < 30; i++) {
   //     chatOutput.innerHTML += botSuccessMessageTemplate("Jasiek jest" + i);
   //     if (i%2 == 0) {

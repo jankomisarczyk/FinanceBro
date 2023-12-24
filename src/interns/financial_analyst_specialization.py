@@ -43,7 +43,7 @@ Provide a concise analysis of the past history, followed by an overview of your 
 
 class FinancialAnalyst(Specialization):
     NAME = "Financial Analyst Agent"
-    DESCRIPTION = "Financial Analyst Agent: Specializes at searching for financial data and analyzing the financials of companies. DO NOT use File Manager Agent for writing content, it is already done."
+    DESCRIPTION = "Financial Analyst Agent: Specializes at searching for financial data and analyzing the financials of companies. It will create a DCF in excel (.xlsx) file but filename cannot be chosen."
     PLUGINS = {
         "find_ticker": FindTicker,
         "get_stock_close_price_to_csv": GetStockClosePriceToCsv,

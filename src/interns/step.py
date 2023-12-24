@@ -6,6 +6,7 @@ class Decision(BaseModel):
     tool_args: Dict[str, Any] = None
 
 class Execution(BaseModel):
+    info: Optional[str] = None
     observation: str
     complete: bool = False
     set_variables: Optional[Dict[str, str]] = None

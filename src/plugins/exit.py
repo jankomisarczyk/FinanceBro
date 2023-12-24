@@ -29,4 +29,7 @@ class Exit(Plugin):
 
         logger.info(conclusion)
 
-        return Execution(observation="Exited", complete=True)
+        return Execution(
+            observation="Exited",
+            info=conclusion,
+            complete=True)

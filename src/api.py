@@ -33,18 +33,17 @@ def stream():
             current_task = session.pop('task', None)
             if current_task:
                 # do finance bro
-                # financebro = FinanceBro(task=current_task, config=config)
-                # await financebro.setup()
-                # while step := await financebro.cycle():
-                #     print("\n=== Sending Server Side Event ===")
-                #     yield "data: {}\n\n".format(step.decision.tool_name)
-                # financebro.save()
-                # yield "data: {}\n\n".format('TASK_DONE')
-                time.sleep(1)
-                yield "event: func\ndata: to powinno zielone\n\n"
-                time.sleep(1)
-                yield "event: bot\ndata: to powinno amber\n\n"
-                time.sleep(1)
+                financebro = FinanceBro(task=current_task, config=config)
+                await financebro.setup()
+                while step := await financebro.cycle():
+                    print("\n=== Sending Server Side Event ===")
+                    if step.execution.info:
+                        if step.decision.tool_name == "exit":
+                            yield "event: bot\ndata: {}\n\n".format(step.execution.info)
+                        else:
+                            yield "event: func\ndata: {}\n\n".format(step.execution.info)
+                
+                financebro.save()
                 yield "event: close\n\n"
                 
     
@@ -60,5 +59,5 @@ def process_request():
     return jsonify({'message': 'Task received'}), 201
 
 if __name__ == '__main__':
-    app.secret_key = 'some_secret_key'
+    app.secret_key = 'juice_wrld'
     app.run(debug=True)

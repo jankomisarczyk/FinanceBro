@@ -54,7 +54,8 @@ class GetNewsSentimentToTxt(Plugin):
                 f.write(CONTENT.format(first_line=first_line, combined_summaries=combined_summaries))
             
             return Execution(
-                observation=f"News Sentiment for {ticker} was successfully written to {filename}."
+                observation=f"News Sentiment for {ticker} was successfully written to {filename}.",
+                info=f"Saved {filename}"
             )
         except Exception as e:
             return Execution(
