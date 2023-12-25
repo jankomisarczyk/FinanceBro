@@ -37,14 +37,18 @@ class QueryVectorStore(Plugin):
                 "The AI Assistant has searched the provided vector store and found the following answers:\n"
             )
 
+            info = []
+
             for question, contexts in question_to_contexts.items():
                 context = QueryVectorStore.create_context([doc.page_content for doc in contexts])
                 prompt = QUESTION_TEMPLATE.format(context=context, question=question)
                 response = await call_llm(messages=[Message(role="user", content=prompt)])
                 output += ANSWER_TEMPLATE.format(question=question, answer=response.content)
+                info.append(response.content)
             
             return Execution(
-                observation=output
+                observation=output,
+                info=info
             )
         except Exception as e:
             return Execution(
@@ -140,4 +144,4 @@ Use three sentences maximum and keep the answer as concise as possible.
 Question: {question}
 Helpful Answer:"""
 
-ANSWER_TEMPLATE = """Answer to "{question}": {answer}"""
+ANSWER_TEMPLATE = """Answer to "{question}": {answer}\n"""

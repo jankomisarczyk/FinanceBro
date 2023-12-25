@@ -1,12 +1,12 @@
 from pydantic import BaseModel
-from typing import Dict, Optional, Any
+from typing import Dict, Optional, Any, Union, List
 
 class Decision(BaseModel):
     tool_name: str = None
     tool_args: Dict[str, Any] = None
 
 class Execution(BaseModel):
-    info: Optional[str] = None
+    info: Optional[Union[str, List[str]]] = None
     observation: str
     complete: bool = False
     set_variables: Optional[Dict[str, str]] = None

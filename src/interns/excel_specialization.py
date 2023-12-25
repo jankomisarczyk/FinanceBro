@@ -19,13 +19,8 @@ PLANNING_PROMPT_TEMPLATE = """As the AI Excel Agent, your role is to strategize 
 
 Functions `create_new_sheet`, `csv_to_excel`, `set_value`, `read_value`, `set_color` are executed on currently active Excel Sheet. To get information about currently active Excel Sheet, call `get_active_excel_and_sheet` function. In order to switch between Excels or Sheets use `switch_excel` and `switch_sheet` respectively.
 
-If you want to use a function that requires `range` argument, please format `range` argument similar to the examples:
-- a Single Cell e.g. A1 use: range="A1"
-- Cells from A1 to B2 use: range="A1:B2"
-- Column A use: range="A:A"
-- Columns A to B use: range="A:B"
-- Row 1 use: range="1:1"
-- Rows 1 to 2 use: range="1:2"
+If you want to use a function that requires `range` argument, please format `range` argument always for a single cell e.g. A1 use: range="A1".
+This means if you want to use a function `set_value` or `set_color` for cells from A1 to B2 i.e. "A1:B2", you need to call the function for every single cell in the range that is "A1", "A2", "B1" and "B2".
 
 Once the Excel task has been completed, instruct the AI Excel Agent to call the `exit` function.
 
@@ -51,7 +46,7 @@ Provide a concise analysis of the past history, followed by an overview of your 
 
 class Excel(Specialization):
     NAME = "Excel Agent"
-    DESCRIPTION = "Excel Agent: Specializes at opening and modifying .xlsx files. It allows to interact with Excel. NOT able to export a global variable."
+    DESCRIPTION = "Excel Agent: Specializes at opening, creating and modifying .xlsx files. It allows to interact with Excel. NOT able to export a global variable."
     PLUGINS = {
         "open_excel": OpenExcel,
         "create_new_excel": CreateNewExcel,

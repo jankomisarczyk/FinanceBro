@@ -51,7 +51,8 @@ class CreateVectorStoreFromPDFs(Plugin):
             # ADD observtion for user in frontend so that ==>> If you want to query it, you can write e.g. 'Query {vs_name}: <list of questions separated with commas>'.
             return Execution(
                 observation=f"Successfully created vector store under name {vs_name}.",
-                set_files={vs_name: "Vector Store"}
+                set_files={vs_name: "Vector Store"},
+                info=f'Vector store "{vs_name}" created'
             )
         except Exception as e:
             return Execution(

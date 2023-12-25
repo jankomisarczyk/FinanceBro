@@ -41,7 +41,11 @@ def stream():
                         if step.decision.tool_name == "exit":
                             yield "event: bot\ndata: {}\n\n".format(step.execution.info)
                         else:
-                            yield "event: func\ndata: {}\n\n".format(step.execution.info)
+                            if isinstance(step.execution.info, list):
+                                for i in step.execution.info:
+                                    yield "event: func\ndata: {}\n\n".format(i)
+                            else:
+                                yield "event: func\ndata: {}\n\n".format(step.execution.info)
                 
                 financebro.save()
                 yield "event: close\n\n"

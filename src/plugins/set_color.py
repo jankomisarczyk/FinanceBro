@@ -25,7 +25,8 @@ class SetColor(Plugin):
             sheet = xw.sheets.active
             sheet[range].color = hex_color
             return Execution(
-                observation=f"The color was successfully set. Currently, active Excel is {xw.books.active.name} and active Sheet is {xw.sheets.active.name}."
+                observation=f"The color was successfully set. Currently, active Excel is {xw.books.active.name} and active Sheet is {xw.sheets.active.name}.",
+                info="Color changed"
             )
         except Exception as e:
             if str(e) == "Couldn't find any active App!":
