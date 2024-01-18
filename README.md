@@ -1,6 +1,7 @@
 # FinanceBro: improving Beebot for Finance
 
-See the Youtube video below on How it works:
+See the Youtube video below on How it works 🚀🚀🚀
+
 [![FinanceBRO (Official Trailer)](http://img.youtube.com/vi/lYqiPUY2PGg/0.jpg)](http://www.youtube.com/watch?v=lYqiPUY2PGg "FinanceBRO (Official Trailer)")
 
 FinanceBro is a master thesis project that combines Beebot functionalities with Gorilla project. It aims to showcase possibilities of LLMs that work with OS of your computer. 
