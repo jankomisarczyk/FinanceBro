@@ -1,4 +1,4 @@
-# FinanceBro: improving Beebot for Finance
+# FinanceBro
 
 See the Youtube video below on How it works 🚀🚀🚀
 
